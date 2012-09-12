@@ -2,7 +2,7 @@
  * aBoy.com Inc.
  * Copyright (c) 2004-2012 All Rights Reserved.
  */
-package com.atom.core.utils;
+package com.atom.core.web;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
