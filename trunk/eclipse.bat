@@ -1,1 +1,1 @@
-mvn eclipse:eclipse
+mvn eclipse:clean eclipse:eclipse
