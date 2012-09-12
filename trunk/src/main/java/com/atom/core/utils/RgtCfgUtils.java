@@ -4,8 +4,7 @@
  */
 package com.atom.core.utils;
 
-import com.atom.ebank.common.enums.RightCategoryEnum;
-import com.atom.ebank.common.enums.RightFunctionEnum;
+import com.atom.core.EnumBase;
 
 /**
  * 权限配置工具类
@@ -15,11 +14,14 @@ import com.atom.ebank.common.enums.RightFunctionEnum;
  */
 public final class RgtCfgUtils {
 
+    /** 权限代码分隔符：模块与操作分隔符 */
+    public static final String RGT_SEP = "-";
+
     /**
      * 组装权限代码
      */
-    public static final String findRgtCode(RightFunctionEnum func, RightCategoryEnum catg) {
-        return func.code() + "-" + catg.code();
+    public static final String findRgtCode(EnumBase module, EnumBase operate) {
+        return module.code() + RGT_SEP + operate.code();
     }
 
 }

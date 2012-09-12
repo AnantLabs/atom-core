@@ -8,9 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 
-import com.atom.ebank.common.enums.RightCategoryEnum;
-import com.atom.ebank.common.enums.RightFunctionEnum;
-
 /**
  * 安全授权对象
  * 
@@ -22,7 +19,7 @@ public enum SecurityAuthority implements GrantedAuthority {
     // AUTH_FULL(AuthenticatedVoter.IS_AUTHENTICATED_FULLY),
     //
     // 系统参数-查看
-    SYS_CFG_VIEW(RightFunctionEnum.SYS_CFG.code() + RightCategoryEnum.QUERY.code());
+    // SYS_CFG_VIEW(RightFunctionEnum.SYS_CFG.code() + RightCategoryEnum.QUERY.code());
     //
     ;
 
