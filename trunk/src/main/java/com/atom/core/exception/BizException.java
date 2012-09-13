@@ -4,6 +4,8 @@
  */
 package com.atom.core.exception;
 
+import com.atom.core.KeyValue;
+
 /**
  * 业务异常
  * 
@@ -23,9 +25,13 @@ public final class BizException extends Exception {
         this(errCode, errCode);
     }
 
+    public BizException(KeyValue keyValue) {
+        this(keyValue.getKey(), keyValue.getValue());
+    }
+
     public BizException(String errCode, String errDesp) {
         super(errCode);
-        
+
         this.errCode = errCode;
         this.errDesp = errDesp;
     }

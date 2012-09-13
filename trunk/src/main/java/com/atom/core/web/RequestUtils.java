@@ -50,38 +50,38 @@ public abstract class RequestUtils {
 
         return ip;
     }
-    
+
     /**
      * 获取所有请求参数
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> getParameters(ServletRequest request) {
         Map<String, Object> params = new ConcurrentHashMap<String, Object>();
-        
+
         Map<Object, Object> srcObjs = request.getParameterMap();
-        for(Map.Entry<Object, Object> srcObj : srcObjs.entrySet()) {
+        for (Map.Entry<Object, Object> srcObj : srcObjs.entrySet()) {
             params.put(ObjectUtils.toString(srcObj.getKey()), srcObj.getValue());
         }
-        
+
         return params;
     }
-    
+
     /**
      * 打印出所有的请求参数
      */
-    public static void dumpRequest(ServletRequest request) {
+    public static String dumpRequest(ServletRequest request) {
         StringBuilder txt = new StringBuilder();
-        
+
         Map<String, Object> params = RequestUtils.getParameters(request);
-        for(Map.Entry<String, Object> param : params.entrySet()) {
+        for (Map.Entry<String, Object> param : params.entrySet()) {
             txt.append("\t");
             txt.append(param.getKey());
             txt.append("=");
             txt.append(ToStringBuilder.reflectionToString(param.getValue(), ToStringStyle.STYLE));
             txt.append(SystemUtils.LINE_SEPARATOR);
         }
-        
-        System.out.println(txt.toString());
+
+        return txt.toString();
     }
 
 }
