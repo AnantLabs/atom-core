@@ -32,7 +32,7 @@ public final class HostUtils {
     /**
      * 代表当前主机的信息。
      */
-    private static final class HostInfo {
+    public static final class HostInfo {
         private final String HOST_NAME;
         private final String HOST_ADDRESS;
 
