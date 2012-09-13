@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node text="ROOT" sort="000000" leaf="false" expanded="true">
+	<node text="用户管理" sort="010000" leaf="false" expanded="true">
+		<node text="用户信息管理" sort="010100" leaf="true" page="userCfgAct.htm" />
+		<node text="权限明细管理" sort="010200" leaf="true" page="rgtDetailAct.htm" />
+		<node text="用户角色管理" sort="010300" leaf="true" page="usrRoleAct.htm" />
+	</node>
+	<node text="系统管理" sort="020000" leaf="false" expanded="true">
+		<node text="菜单配置管理" sort="020100" leaf="true" page="nodeCfgAct.htm" />
+		<node text="系统参数管理" sort="020200" leaf="true" page="sysCfgAct.htm" />
+		<node text="关闭系统服务" sort="020300" leaf="true" page="exitSystem.htm" />
+	</node>
+</node>
