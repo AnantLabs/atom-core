@@ -33,6 +33,11 @@ public class LogConsts {
      * 日志名：Biz业务
      */
     public static final String  BIZ     = APP + "-BIZ";
+    
+    /**
+     * 日志名：Event业务
+     */
+    public static final String  EVENT     = APP + "-EVENT";
 
     /**
      * 日志名：Web业务
