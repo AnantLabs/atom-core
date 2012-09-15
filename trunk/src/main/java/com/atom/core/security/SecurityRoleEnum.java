@@ -15,7 +15,9 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public enum SecurityRoleEnum implements GrantedAuthority {
     //
-    ROLE_LOGIN("是否登录"),
+    ROLE_HOLD("业务权限"),
+    //
+    ROLE_LOGIN("登录权限"),
     //
     ;
 
