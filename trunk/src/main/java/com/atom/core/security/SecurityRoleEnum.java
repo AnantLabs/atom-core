@@ -17,7 +17,7 @@ import com.atom.core.EnumBase;
  */
 public enum SecurityRoleEnum implements EnumBase {
     //
-    ROLE_HOLD("业务权限"),
+    // ROLE_HOLD("业务权限"),
     //
     ROLE_LOGIN("登录权限"),
     //
