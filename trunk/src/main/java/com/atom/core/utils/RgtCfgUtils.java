@@ -4,6 +4,8 @@
  */
 package com.atom.core.utils;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import com.atom.core.EnumBase;
 
 /**
@@ -20,8 +22,24 @@ public final class RgtCfgUtils {
     /**
      * 组装权限代码
      */
+    public static final String findRgtCode(String module, String operate) {
+        return module + RGT_SEP + operate;
+    }
+
+    /**
+     * 组装权限代码
+     */
     public static final String findRgtCode(EnumBase module, EnumBase operate) {
         return module.code() + RGT_SEP + operate.code();
+    }
+    
+    public static final GrantedAuthority newGrantedAuthority(final String rgtCode) {
+        return new GrantedAuthority(){
+            private static final long serialVersionUID = 1L;
+
+            public String getAuthority() {
+                return rgtCode;
+            }};
     }
 
 }
