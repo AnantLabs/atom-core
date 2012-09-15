@@ -7,13 +7,15 @@ package com.atom.core.security;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
+import com.atom.core.EnumBase;
+
 /**
  * 公共的角色
  * 
  * @author obullxl@gmail.com
  * @version $Id: SecurityRoleEnum.java, 2012-9-9 下午4:49:51 Exp $
  */
-public enum SecurityRoleEnum implements GrantedAuthority {
+public enum SecurityRoleEnum implements EnumBase {
     //
     ROLE_HOLD("业务权限"),
     //
@@ -21,18 +23,35 @@ public enum SecurityRoleEnum implements GrantedAuthority {
     //
     ;
 
-    /** 授权对象 */
+    /** 描述 */
     private final String desp;
 
+    /**
+     * CTOR
+     */
     private SecurityRoleEnum(String desp) {
         this.desp = desp;
     }
 
     /**
-     * @see org.springframework.security.core.GrantedAuthority#getAuthority()
+     * @see com.atom.core.EnumBase#code()
      */
-    public String getAuthority() {
+    public String code() {
         return this.name();
+    }
+
+    /**
+     * @see com.atom.core.EnumBase#desp()
+     */
+    public String desp() {
+        return this.desp;
+    }
+
+    /**
+     * 构建授权信息
+     */
+    public GrantedAuthority toAuthority() {
+        return new SecurityAuthority(this.code());
     }
 
     /**
@@ -43,19 +62,13 @@ public enum SecurityRoleEnum implements GrantedAuthority {
             return null;
         }
 
-        for (SecurityRoleEnum authority : values()) {
-            if (StringUtils.equalsIgnoreCase(authority.getAuthority(), code)) {
-                return authority;
+        for (SecurityRoleEnum enumm : values()) {
+            if (StringUtils.equalsIgnoreCase(enumm.code(), code)) {
+                return enumm;
             }
         }
 
         return null;
-    }
-
-    // ~~~~~~~~~~ getters and setters ~~~~~~~~~~~~~~ ///
-
-    public String getDesp() {
-        return desp;
     }
 
 }
