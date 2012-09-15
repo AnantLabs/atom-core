@@ -22,6 +22,16 @@ public enum SystemModuleEnum implements EnumBase {
     //
     USER("用户管理"),
     //
+    RGHT("权限明细"),
+    //
+    ROLE("用户角色"),
+    //
+    GRNT("用户授权"),
+    //
+    PLOG("操作日志"),
+    //
+    DATA("数据平台"),
+    //
     ;
 
     /** 描述 */
