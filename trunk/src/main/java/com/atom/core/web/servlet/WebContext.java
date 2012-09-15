@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -112,4 +113,36 @@ public final class WebContext {
         _holder.remove();
     }
 
+    // ~~~~~~~~~~~~~~~~~~~~ 业务方法 ~~~~~~~~~~~~~~~~~~~~~~ //
+    
+    /**
+     * 是否为‘.htm’请求，主要为了校验是否为Http页面请求，而不是Ajax等请求
+     */
+    public boolean isHtmRequest() {
+        String uri = this.getRequest().getRequestURI();
+        if(StringUtils.endsWithIgnoreCase(uri, ".htm")) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Http请求地址（去掉‘ticket’参数值）
+     */
+    public String getRequestURL() {
+        StringBuilder txt = new StringBuilder(128);
+        
+        // 请求URL
+        txt.append(this.getRequest().getRequestURL());
+        
+        // 请求参数
+        
+        
+        // 请求HASH
+        this.getRequest().getQueryString();
+        
+        return "";
+    }
+    
 }

@@ -99,7 +99,7 @@ public final class WebDispatcherServlet extends DispatcherServlet {
      * 打印请求信息（DEBUG）
      */
     private void dumpRequest(HttpServletRequest request) {
-        if (logger.isDebugEnabled()) {
+        if (logger.isInfoEnabled()) {
             StringBuilder txt = new StringBuilder(256);
 
             // request中参数
@@ -118,7 +118,7 @@ public final class WebDispatcherServlet extends DispatcherServlet {
             }
 
             // 打印
-            logger.debug(txt.toString());
+            logger.info(txt.toString());
         }
     }
 
