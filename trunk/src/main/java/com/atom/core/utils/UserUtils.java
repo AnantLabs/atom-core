@@ -12,22 +12,22 @@ package com.atom.core.utils;
  */
 public final class UserUtils {
 
-    public static final String SYS_USER_ID   = "";
+    public static final long   SYS_USER_ID   = 0L;
 
     public static final String SYS_USER_NAME = "系统";
 
     /**
      * 系统用户UID
      */
-    public static final String findSystemUserID() {
-        return "";
+    public static final long findSystemUserID() {
+        return SYS_USER_ID;
     }
 
     /**
      * 系统用户名
      */
     public static final String findSystemUserName() {
-        return "";
+        return SYS_USER_NAME;
     }
 
 }

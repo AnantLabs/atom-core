@@ -48,10 +48,4 @@ public final class Consts {
     /** 默认页大小 */
     public static final int    MAX_PAGE_SIZE              = 100;
 
-    /** 菜单配置是否初始化KYE */
-    public static final String MENU_CONFIG_INIT_FLAG_KEY  = "MENU-CONFIG-INIT-FLAG";
-
-    /** 权限明细是否初始化KYE */
-    public static final String RIGHT_DETAIL_INIT_FLAG_KEY = "RIGHT-DETAIL-INIT-FLAG";
-
 }
