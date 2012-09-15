@@ -27,10 +27,12 @@ import com.atom.core.ToString;
 public class OperationContext extends ToString implements UserDetails, CredentialsContainer, Principal {
     private static final long           serialVersionUID      = -7370639572728540305L;
 
-    /** 密码 */
-    private String                      password;
+    /** 用户ID */
+    private long                        userId;
     /** 用户名 */
     private String                      username;
+    /** 密码 */
+    private String                      password;
     /** 权限 */
     private final Set<GrantedAuthority> authorities           = new HashSet<GrantedAuthority>();
 
@@ -115,6 +117,16 @@ public class OperationContext extends ToString implements UserDetails, Credentia
 
     public void addAuthority(GrantedAuthority authority) {
         this.authorities.add(authority);
+    }
+
+    // ~~~~~~~~~~ getters and setters ~~~~~~~~~~~~~ //
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public void setPassword(String password) {
