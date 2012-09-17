@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.atom.core.LogConsts;
 
@@ -29,7 +30,7 @@ import com.atom.core.LogConsts;
  */
 public abstract class AbstractFilter implements Filter {
     /** Logger */
-    protected static final Logger logger = Logger.getLogger(LogConsts.WEB);
+    protected static final Logger logger = LoggerFactory.getLogger(LogConsts.WEB);
 
     /**
      * 过滤链

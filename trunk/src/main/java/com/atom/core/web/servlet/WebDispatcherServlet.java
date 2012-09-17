@@ -16,7 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -34,7 +35,7 @@ public final class WebDispatcherServlet extends DispatcherServlet {
     private static final long   serialVersionUID = -7956676216338043105L;
 
     /** Logger */
-    private static final Logger logger           = Logger.getLogger(LogConsts.WEB);
+    private static final Logger logger           = LoggerFactory.getLogger(LogConsts.WEB);
 
     /** 
      * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
@@ -49,7 +50,8 @@ public final class WebDispatcherServlet extends DispatcherServlet {
     /** 
      * @see org.springframework.web.servlet.DispatcherServlet#doDispatch(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    public void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void doDispatch(HttpServletRequest request, HttpServletResponse response)
+                                                                                    throws Exception {
         // 计时
         Profiler.enter("Web请求，URL:" + this.getQueryURL(request));
 
@@ -78,7 +80,8 @@ public final class WebDispatcherServlet extends DispatcherServlet {
         super.initFrameworkServlet();
 
         ApplicationContext context = this.getWebApplicationContext();
-        this.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
+        this.getServletContext().setAttribute(
+            WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
     }
 
     /**
@@ -107,7 +110,8 @@ public final class WebDispatcherServlet extends DispatcherServlet {
             @SuppressWarnings("unchecked")
             Map<Object, Object> params = request.getParameterMap();
             for (Map.Entry<Object, Object> entry : params.entrySet()) {
-                txt.append("\t").append(entry.getKey()).append("=").append(entry.getValue()).append(SystemUtils.LINE_SEPARATOR);
+                txt.append("\t").append(entry.getKey()).append("=").append(entry.getValue())
+                    .append(SystemUtils.LINE_SEPARATOR);
             }
 
             // cookie中的参数

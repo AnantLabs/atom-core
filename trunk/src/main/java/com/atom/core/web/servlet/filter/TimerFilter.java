@@ -12,7 +12,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.atom.core.LogConsts;
 import com.atom.core.Profiler;
@@ -47,7 +48,7 @@ import com.atom.core.Profiler;
  */
 public class TimerFilter extends AbstractFilter {
     /** Logger */
-    private static final Logger pagelogger = Logger.getLogger(LogConsts.DIGEST);
+    private static final Logger pagelogger = LoggerFactory.getLogger(LogConsts.DIGEST);
 
     /**
      * 参数：时间值

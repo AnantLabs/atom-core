@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
@@ -28,7 +29,7 @@ import com.atom.core.event.UniformEventService;
  */
 public class SpringUniformEventService implements ApplicationContextAware,
                                       ApplicationListener<UniformEvent>, UniformEventService {
-    private static final Logger                                  logger    = Logger
+    private static final Logger                                  logger    = LoggerFactory
                                                                                .getLogger(LogConsts.EVENT);
 
     /** 应用上下文 */
