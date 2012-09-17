@@ -11,47 +11,45 @@ package com.atom.core;
  * @version $Id: LoggerConstants.java, 2011-12-26 下午8:41:38 Exp $
  */
 public class LogConsts {
-    /** 应用名称 */
-    private static final String APP     = Consts.APP_NAME;
 
     /**
      * 日志名：核心
      */
-    public static final String  CORE    = APP + "-CORE";
+    public static final String CORE    = "com.atom.ebank.core";
 
     /**
      * 日志名：公用
      */
-    public static final String  DEFAULT = APP + "-DEFAULT";
+    public static final String DEFAULT = "com.atom";
 
     /**
      * 日志名：DAL业务
      */
-    public static final String  DAL     = APP + "-DAL";
+    public static final String DAL     = "com.atom.ebank.dal";
 
     /**
      * 日志名：Biz业务
      */
-    public static final String  BIZ     = APP + "-BIZ";
-    
+    public static final String BIZ     = "com.atom.ebank.biz";
+
     /**
      * 日志名：Event业务
      */
-    public static final String  EVENT     = APP + "-EVENT";
+    public static final String EVENT   = "com.atom.ebank.event";
 
     /**
      * 日志名：Web业务
      */
-    public static final String  WEB     = APP + "-WEB";
+    public static final String WEB     = "com.atom.ebank.web";
 
     /**
      * 日志名：Web摘要
      */
-    public static final String  DIGEST  = APP + "-DIGEST";
+    public static final String DIGEST  = "com.atom.ebank.digest";
 
     /**
      * 日志名：工具类
      */
-    public static final String  UTIL    = APP + "-UTIL";
+    public static final String UTIL    = "com.atom.ebank.util";
 
 }
