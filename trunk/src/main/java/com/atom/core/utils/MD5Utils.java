@@ -20,10 +20,13 @@ public final class MD5Utils {
     public static final String password(String source) {
         return DigestUtils.md5Hex(source);
     }
-    
+
     public static final void main(String[] args) {
+        // root <-> 63a9f0ea7bb98050796b649e85481845
+        // System.out.println(password("root"));
+
         // admin <-> 21232f297a57a5a743894a0e4a801fc3
         // System.out.println(password("admin"));
     }
-    
+
 }
