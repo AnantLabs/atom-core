@@ -8,18 +8,18 @@ import java.io.FileInputStream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.atom.core.exception.BizException;
 import com.atom.core.model.NodeConst;
 import com.atom.core.model.NodeModel;
 import com.atom.core.service.NodeModelService;
-import com.atom.core.utils.DateUtils;
 
 /**
  * 节点模型服务
@@ -30,9 +30,9 @@ import com.atom.core.utils.DateUtils;
 public class DefaultNodeModelService implements NodeModelService {
 
     /** 
-     * @see com.atom.core.service.NodeModelService#unmarshal(java.lang.String)
+     * @see com.atom.core.service.NodeModelService#parse(java.lang.String)
      */
-    public NodeModel unmarshal(String config) throws Exception {
+    public NodeModel parse(String config) throws Exception {
         // 根节点
         NodeModel rootNode = null;
 
@@ -67,51 +67,20 @@ public class DefaultNodeModelService implements NodeModelService {
      * 解析一个节点
      */
     private NodeModel parseNodeElement(Element element) {
+        NamedNodeMap props = element.getAttributes();
+        if (props == null || props.getLength() <= 0) {
+            return null;
+        }
+
         NodeModel node = new NodeModel();
-
-        // ID
-        node.setId(StringUtils.trimToEmpty(element.getAttribute(NodeConst.ID)));
-
-        // ParentID
-        node.setParentId(StringUtils.trimToEmpty(element.getAttribute(NodeConst.PARENT_ID)));
+        for (int i = 0; i < props.getLength(); i++) {
+            Node prop = props.item(i);
+            node.getExtMap().put(prop.getNodeName(), prop.getTextContent());
+        }
 
         // Text
+        node.getExtMap().remove(NodeConst.TEXT);
         node.setText(StringUtils.trimToEmpty(element.getAttribute(NodeConst.TEXT)));
-
-        // Sort
-        node.setSort(StringUtils.trimToEmpty(element.getAttribute(NodeConst.SORT)));
-
-        // Page
-        node.setPage(StringUtils.trimToEmpty(element.getAttribute(NodeConst.PAGE)));
-
-        // Leaf
-        node.setLeaf(BooleanUtils.toBoolean(element.getAttribute(NodeConst.IS_LEAF)));
-
-        // Expand
-        node.setExpanded(BooleanUtils.toBoolean(element.getAttribute(NodeConst.IS_EXPAND)));
-
-        // Check
-        node.setChecked(BooleanUtils.toBooleanObject(element.getAttribute(NodeConst.IS_CHECK)));
-
-        // Icon
-        node.setIcon(StringUtils.trimToEmpty(element.getAttribute(NodeConst.ICON)));
-
-        // IconExt
-        node.setIconExt(StringUtils.trimToEmpty(element.getAttribute(NodeConst.ICON_EXT)));
-
-        // QTitle
-        node.setQtitle(StringUtils.trimToEmpty(element.getAttribute(NodeConst.QTITLE)));
-
-        // QTip
-        node.setQtip(StringUtils.trimToEmpty(element.getAttribute(NodeConst.QTIP)));
-
-        // GmtCreate
-        node.setGmtCreate(DateUtils.tryParseDate(StringUtils.trimToEmpty(element
-            .getAttribute(NodeConst.GMT_CREATE))));
-
-        // GmtModify
-        node.setGmtCreate(DateUtils.tryParseDate(StringUtils.trimToEmpty(element
-            .getAttribute(NodeConst.GMT_MODIFY))));
 
         return node;
     }

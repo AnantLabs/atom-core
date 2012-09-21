@@ -21,6 +21,6 @@ public interface NodeModelService {
      * 
      * @throws 如果解析失败，抛出异常
      */
-    public NodeModel unmarshal(String config) throws Exception;
+    public NodeModel parse(String config) throws Exception;
 
 }

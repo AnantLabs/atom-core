@@ -27,7 +27,7 @@ public class NodeModelServiceTest {
                                               + "/src/test/resources/menu-config.xml");
 
         NodeModelService service = new DefaultNodeModelService();
-        NodeModel root = service.unmarshal(path);
+        NodeModel root = service.parse(path);
         System.out.println(root);
     }
 
