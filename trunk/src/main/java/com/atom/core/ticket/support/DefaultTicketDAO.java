@@ -151,12 +151,14 @@ public class DefaultTicketDAO implements TicketDAO, InitializingBean {
         if (this.selectSQL == null) {
             this.selectLock.lock();
             try {
-                StringBuilder buffer = new StringBuilder();
-                buffer.append("select ").append(this.valueColumnName);
-                buffer.append(" from ").append(this.tableName);
-                buffer.append(" where ").append(this.nameColumnName).append(" = ?");
+                if (this.selectSQL == null) {
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.append("select ").append(this.valueColumnName);
+                    buffer.append(" from ").append(this.tableName);
+                    buffer.append(" where ").append(this.nameColumnName).append(" = ?");
 
-                this.selectSQL = buffer.toString();
+                    this.selectSQL = buffer.toString();
+                }
             } finally {
                 this.selectLock.unlock();
             }
@@ -169,14 +171,16 @@ public class DefaultTicketDAO implements TicketDAO, InitializingBean {
         if (this.updateSQL == null) {
             this.updateLock.lock();
             try {
-                StringBuilder buffer = new StringBuilder();
-                buffer.append("update ").append(this.tableName);
-                buffer.append(" set ").append(this.valueColumnName).append(" = ?, ");
-                buffer.append(this.stampColumnName).append(" = ? where ");
-                buffer.append(this.nameColumnName).append(" = ? and ");
-                buffer.append(this.valueColumnName).append(" = ?");
+                if (this.updateSQL == null) {
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.append("update ").append(this.tableName);
+                    buffer.append(" set ").append(this.valueColumnName).append(" = ?, ");
+                    buffer.append(this.stampColumnName).append(" = ? where ");
+                    buffer.append(this.nameColumnName).append(" = ? and ");
+                    buffer.append(this.valueColumnName).append(" = ?");
 
-                this.updateSQL = buffer.toString();
+                    this.updateSQL = buffer.toString();
+                }
             } finally {
                 this.updateLock.unlock();
             }
