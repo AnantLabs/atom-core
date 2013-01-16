@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
     <version>1.0.1</version>
     <name>atom-core-ticket</name>
-    <description>ticket</description>
+    <description>atom-core-ticket</description>
 
     <dependencies>
         <!-- ======================================== -->
