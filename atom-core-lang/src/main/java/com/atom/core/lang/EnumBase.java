@@ -32,14 +32,4 @@ public interface EnumBase {
      */
     public String desp();
 
-    /**
-     * 根据ID取得枚举
-     */
-    public EnumBase findByID(int id);
-
-    /**
-     * 根据代码取得枚举
-     */
-    public EnumBase findByCode(String code);
-
 }
