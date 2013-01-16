@@ -29,6 +29,16 @@
 		</dependency>
 
 		<!-- ======================================== -->
+		<!-- Apache Commons相关依赖 -->
+		<!-- ======================================== -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ======================================== -->
 		<!-- JUnit测试依赖 -->
 		<!-- ======================================== -->
 		<dependency>
