@@ -1,6 +1,6 @@
 /**
- * aBoy.com Inc.
- * Copyright (c) 2004-2012 All Rights Reserved.
+ * Author: obullxl@gmail.com
+ * Copyright (c) 2004-2013 All Rights Reserved.
  */
 package com.atom.core.uijfx;
 
@@ -28,22 +28,22 @@ public class UISize {
         this.height = height;
     }
 
-    public static UISize toSize(double width, double height) {
+    public static UISize to(double width, double height) {
         return new UISize(width, height);
     }
 
     public static UISize toDefault() {
-        return toSize(WIDTH, HEIGHT);
+        return to(WIDTH, HEIGHT);
     }
 
     public static UISize toMaxSize() {
         Rectangle2D screen = Screen.getPrimary().getVisualBounds();
-        return toSize(screen.getWidth() * 0.8, screen.getHeight() * 0.8);
+        return to(screen.getWidth() * 0.8, screen.getHeight() * 0.8);
     }
 
     public static UISize toScreenSize() {
         Rectangle2D screen = Screen.getPrimary().getVisualBounds();
-        return toSize(screen.getWidth(), screen.getHeight());
+        return to(screen.getWidth(), screen.getHeight());
     }
 
     public double getWidth() {
