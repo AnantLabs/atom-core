@@ -21,6 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import com.atom.core.lang.ids.ID;
 import com.atom.core.lang.utils.LogUtils;
 import com.atom.core.xstream.XStreamHolder;
+import com.thoughtworks.xstream.XStream;
 
 /**
  * 存储器基类
@@ -52,6 +53,13 @@ public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
+    
+    /**
+     * 获取XStream对象
+     */
+    public static XStream findXStream() {
+        return XStreamHolder.get();
+    }
 
     /**
      * 初始化工作
@@ -73,11 +81,11 @@ public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
                 throw new RuntimeException("Store初始化存储器失败，文件路径为空！");
             }
 
-            XStreamHolder.get().alias("ID", ID.class);
+            findXStream().alias("ID", ID.class);
 
             File file = new File(this.getFilePath());
             if (file.exists()) {
-                this.store.putAll((Map<Long, T>) XStreamHolder.get().fromXML(file));
+                this.store.putAll((Map<Long, T>) findXStream().fromXML(file));
                 this.aid.set(this.findMaxID());
             }
         } catch (Exception e) {
@@ -106,7 +114,7 @@ public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
 
             OutputStream out = new FileOutputStream(file);
             try {
-                XStreamHolder.get().toXML(this.store, out);
+                findXStream().toXML(this.store, out);
             } finally {
                 IOUtils.closeQuietly(out);
             }
