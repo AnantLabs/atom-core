@@ -48,15 +48,8 @@ public class PrefUtils {
     private static final PrefMap ensure(String category) {
         PrefMap pref = _map.get(category);
         if (pref == null) {
-            _lock.writeLock().lock();
-            try {
-                if (pref == null) {
-                    pref = new PrefMap(category);
-                    _map.put(category, pref);
-                }
-            } finally {
-                _lock.writeLock().unlock();
-            }
+            pref = new PrefMap(category);
+            _map.put(category, pref);
         }
 
         return pref;
