@@ -52,7 +52,7 @@ public class PrefMap {
         }
     }
 
-    public void store() {
+    private void store() {
         String path = this.getFilePath();
         File file = new File(path + "/" + this.name);
         OutputStream output = null;
