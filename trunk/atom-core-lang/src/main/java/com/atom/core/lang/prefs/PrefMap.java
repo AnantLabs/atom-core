@@ -35,6 +35,10 @@ public class PrefMap {
     private void init() {
         String path = this.getFilePath();
         File file = new File(path + "/" + this.name);
+        if(!file.exists()) {
+            return;
+        }
+        
         InputStream input = null;
         try {
             input = new FileInputStream(file);
