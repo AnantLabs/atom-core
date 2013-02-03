@@ -23,5 +23,12 @@ public abstract class ToString implements Serializable {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.STYLE);
     }
+    
+    /**
+     * 把一个对象转化为字符串
+     */
+    public static String toString(Object object) {
+        return ToStringBuilder.reflectionToString(object, ToStringStyle.STYLE);
+    }
 
 }
