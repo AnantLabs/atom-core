@@ -29,25 +29,23 @@ public class StageUtils {
     /**
      * 根据Controller类获取Controller对象
      */
-    public static <T> T findController(Class<T> clazz) throws Exception {
+    public static <T> T findController(Class<T> clazz) {
         return findController(clazz, findFXMLName(clazz) + ".fxml");
     }
 
     /**
      * 根据Controller类和FXML名获取Controller对象
      */
-    public static <T> T findController(Class<T> clazz, String fxml) throws Exception {
+    public static <T> T findController(Class<T> clazz, String fxml) {
         FXMLLoader loader = new FXMLLoader();
         loader.setBuilderFactory(new JavaFXBuilderFactory());
         loader.setLocation(clazz.getResource(fxml));
-        loader.load();
-        
-        /*
-         Parent page = (Parent) loader.load();
-         Stage stage = StageHolder.get();
-         stage.setScene(new Scene(page, size.getWidth(), size.getHeight()));
-         stage.sizeToScene();
-        */
+
+        try {
+            loader.load();
+        } catch (Exception e) {
+            throw new RuntimeException("获取Controller异常, Clazz[" + clazz.getClass() + "], FXML[" + fxml + "].", e);
+        }
 
         return loader.getController();
     }
