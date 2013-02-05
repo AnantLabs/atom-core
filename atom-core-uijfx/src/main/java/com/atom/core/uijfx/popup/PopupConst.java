@@ -13,19 +13,27 @@ package com.atom.core.uijfx.popup;
 public interface PopupConst {
 
     /** 默认标题 */
-    public static final String DEFAULT_TITLE         = "提示对话窗口";
+    public static final String DEFAULT_TITLE              = "提示对话窗口";
 
     /** 确定 */
-    public static final int    BTN_SURE_VALUE        = 1;
+    public static final int    BTN_SURE_VALUE             = 1;
 
-    public static final String BTN_SURE_TEXT         = "确定";
+    public static final String BTN_SURE_TEXT              = "确定";
 
     /** 取消 */
-    public static final int    BTN_CANCEL_VALUE      = 2;
+    public static final int    BTN_CANCEL_VALUE           = 2;
 
-    public static final String BTN_CANCEL_TEXT       = "取消";
+    public static final String BTN_CANCEL_TEXT            = "取消";
+
+    /** 帮助 */
+    public static final int    BTN_HELP_VALUE             = 4;
+
+    public static final String BTN_HELP_TEXT              = "帮助";
 
     /** 确定-取消 */
-    public static final int    BTN_SURE_CANCEL_VALUE = (BTN_SURE_VALUE | BTN_CANCEL_VALUE);
+    public static final int    BTN_SURE_CANCEL_VALUE      = (BTN_SURE_VALUE | BTN_CANCEL_VALUE);
+
+    /** 确定-取消-帮助 */
+    public static final int    BTN_SURE_CANCEL_HELP_VALUE = (BTN_SURE_CANCEL_VALUE | BTN_HELP_VALUE);
 
 }

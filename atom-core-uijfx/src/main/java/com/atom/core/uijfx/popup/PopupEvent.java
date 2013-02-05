@@ -4,6 +4,8 @@
  */
 package com.atom.core.uijfx.popup;
 
+import javafx.stage.Stage;
+
 /**
  * 弹出窗口事件
  * 
@@ -15,6 +17,6 @@ public interface PopupEvent {
     /**
      * 回调函数
      */
-    public void callback(int btnValue);
+    public void callback(Stage newStage, int btnValue);
     
 }
