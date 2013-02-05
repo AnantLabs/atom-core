@@ -1,0 +1,2 @@
+1. jfxrt.jar安装到Maven库：
+mvn install:install-file -Dfile=jfxrt.jar -DgroupId=javafx -DartifactId=javafx -Dpackaging=jar -Dversion=2.2.4
