@@ -4,10 +4,12 @@
  */
 package com.atom.core.uijfx.popup;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +24,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.atom.core.lang.utils.LogUtils;
 
 /**
@@ -35,7 +39,7 @@ public class PopupView implements PopupConst {
     /** 根视图 */
     private Stage        stage;
     private Stage        newStage;
-    private boolean      modal    = true; ;
+    private boolean      modal         = true;
 
     @FXML
     private GridPane     rootView;
@@ -43,19 +47,22 @@ public class PopupView implements PopupConst {
 
     @FXML
     private ImageView    icon;
-    private Image        tipImage;
+    private Image        image;
     private String       title;
 
     @FXML
     private Label        lblMsg;
-
     @FXML
-    private Label        lblContent;
+    private Label        lblDesp;
 
     @FXML
     private HBox         hboxButtons;
     private List<Button> buttons;
-    private int          btnStyle = -1;
+    private int          btnStyle      = -1;
+    private String       btnSureText   = BTN_SURE_TEXT;
+    private String       btnCancelText = BTN_CANCEL_TEXT;
+    private String       btnHelpText   = BTN_HELP_TEXT;
+    private String       helpDocUrl;
 
     private PopupEvent   callback;
 
@@ -82,6 +89,15 @@ public class PopupView implements PopupConst {
      * 初始化
      */
     protected void initViews() {
+        // 清空测试文本
+        this.lblMsg.setText(StringUtils.EMPTY);
+        this.lblDesp.setText(StringUtils.EMPTY);
+
+        // 删除原按钮
+        int size = this.hboxButtons.getChildren().size();
+        for (int i = 0; i < size; i++) {
+            this.hboxButtons.getChildren().remove(0);
+        }
     }
 
     /**
@@ -111,8 +127,8 @@ public class PopupView implements PopupConst {
     /**
      * 设置图片信息
      */
-    public PopupView setTipIcon(Image img) {
-        this.tipImage = img;
+    public PopupView setImage(Image img) {
+        this.image = img;
         return this;
     }
 
@@ -135,8 +151,8 @@ public class PopupView implements PopupConst {
     /**
      * 设置提示信息内容
      */
-    public PopupView setContent(String content) {
-        this.lblContent.setText(content);
+    public PopupView setDesp(String desp) {
+        this.lblDesp.setText(desp);
         return this;
     }
 
@@ -153,6 +169,46 @@ public class PopupView implements PopupConst {
      */
     public PopupView setBtnStyle(int btnStyle) {
         this.btnStyle = btnStyle;
+        return this;
+    }
+
+    /**
+     * 设置‘确定’按钮文本
+     */
+    public PopupView setSureText(String btnSureText) {
+        if (StringUtils.isNotBlank(btnSureText)) {
+            this.btnSureText = btnSureText;
+        }
+        return this;
+    }
+
+    /**
+     * 设置‘取消’按钮文本
+     */
+    public PopupView setCancelText(String btnCancelText) {
+        if (StringUtils.isNotBlank(btnCancelText)) {
+            this.btnCancelText = btnCancelText;
+        }
+        return this;
+    }
+
+    /**
+     * 设置‘帮助’按钮文本
+     */
+    public PopupView setHelpText(String btnHelpText) {
+        if (StringUtils.isNotBlank(btnHelpText)) {
+            this.btnHelpText = btnHelpText;
+        }
+        return this;
+    }
+
+    /**
+     * 设置‘帮助’文档URL
+     */
+    public PopupView setHelpDocUrl(String helpDocUrl) {
+        if (StringUtils.isNotBlank(helpDocUrl)) {
+            this.helpDocUrl = helpDocUrl;
+        }
         return this;
     }
 
@@ -187,46 +243,51 @@ public class PopupView implements PopupConst {
         }
 
         // 提示图片
-        if (this.tipImage != null) {
-            this.icon.setImage(this.tipImage);
+        if (this.image != null) {
+            this.icon.setImage(this.image);
         } else {
-            this.icon.setImage(this.findNormalIcon());
+            // this.icon.setImage(this.findNormalIcon());
+            this.icon.setVisible(false);
         }
 
-        // 按钮组
-        if (this.buttons == null) {
+        // 提示内容
+        if (StringUtils.isBlank(this.lblMsg.getText())) {
+            this.lblMsg.setVisible(false);
+        }
+        if (StringUtils.isBlank(this.lblDesp.getText())) {
+            this.lblDesp.setVisible(false);
+        }
+
+        // 增加新按钮
+        if (this.buttons != null && !this.buttons.isEmpty()) {
+            this.hboxButtons.getChildren().addAll(this.buttons);
+        } else {
             List<Button> buttons = new ArrayList<Button>();
 
             if (this.btnStyle <= 0) {
+                this.btnStyle = BTN_SURE_CANCEL_HELP_VALUE;
+            }
+
+            // 选择性增加按钮
+            if ((this.btnStyle & BTN_SURE_VALUE) == BTN_SURE_VALUE) {
                 // 确定
                 this.initSureButton(buttons);
+            }
 
+            if ((this.btnStyle & BTN_CANCEL_VALUE) == BTN_CANCEL_VALUE) {
                 // 取消
                 this.initCancelButton(buttons);
-            } else {
-                // 选择性增加按钮
-                if ((this.btnStyle & BTN_SURE_VALUE) == BTN_SURE_VALUE) {
-                    // 确定
-                    this.initSureButton(buttons);
-                }
+            }
 
-                if ((this.btnStyle & BTN_CANCEL_VALUE) == BTN_CANCEL_VALUE) {
-                    // 取消
-                    this.initCancelButton(buttons);
-                }
+            if ((this.btnStyle & BTN_HELP_VALUE) == BTN_HELP_VALUE) {
+                // 帮助
+                this.initHelpButton(buttons);
             }
 
             // 增加新按钮组
-            this.hboxButtons.getChildren().addAll(buttons);
-        } else {
-            // 删除原按钮
-            int size = this.hboxButtons.getChildren().size();
-            for (int i = 0; i < size; i++) {
-                this.hboxButtons.getChildren().remove(i);
+            if (!buttons.isEmpty()) {
+                this.hboxButtons.getChildren().addAll(buttons);
             }
-
-            // 增加新按钮组
-            this.hboxButtons.getChildren().addAll(this.buttons);
         }
 
         this.newStage.setScene(new Scene(this.rootView));
@@ -235,49 +296,79 @@ public class PopupView implements PopupConst {
         this.newStage.show();
     }
 
+    /**
+     * 初始化按钮
+     */
     private Button initButton(String text, final int value) {
-        Button sure = new Button(text);
-        sure.setMinWidth(60.0);
-        sure.setMaxHeight(25.0);
-        sure.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        Button button = new Button(text);
+        button.setMinWidth(60.0);
+        button.setMinHeight(25.0);
+        button.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (callback != null) {
-                    callback.callback(value);
+                    callback.callback(newStage, value);
+                } else {
+                    newStage.close();
                 }
-
-                Platform.exit();
             }
         });
 
-        return sure;
+        return button;
     }
 
     private void initSureButton(List<Button> buttons) {
-        buttons.add(this.initButton(BTN_SURE_TEXT, BTN_SURE_VALUE));
+        buttons.add(this.initButton(this.btnSureText, BTN_SURE_VALUE));
     }
 
     private void initCancelButton(List<Button> buttons) {
-        buttons.add(this.initButton(BTN_CANCEL_TEXT, BTN_CANCEL_VALUE));
+        buttons.add(this.initButton(this.btnCancelText, BTN_CANCEL_VALUE));
+    }
+
+    private void initHelpButton(List<Button> buttons) {
+        Button btnHelp = this.initButton(this.btnHelpText, BTN_HELP_VALUE);
+
+        if (StringUtils.isNotBlank(this.helpDocUrl)) {
+            btnHelp.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent event) {
+                    String doc = helpDocUrl;
+                    try {
+                        if (StringUtils.startsWith(doc, "www.")) {
+                            doc = "http://" + doc;
+                        }
+
+                        if (StringUtils.startsWith(doc, "http")) {
+                            Desktop.getDesktop().browse(new URL(doc).toURI());
+                        } else {
+                            Desktop.getDesktop().open(new File(doc));
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException("打开帮助文档[" + doc + "]异常！", e);
+                    }
+                }
+            });
+        }
+
+        buttons.add(btnHelp);
     }
 
     /**
      * 一般-图片
      */
-    private Image findNormalIcon() {
+    public Image findNormalIcon() {
         return new Image(getClass().getResourceAsStream("icon-success.gif"));
     }
 
     /**
      * 成功-图片
      */
-    private Image findSuccessIcon() {
+    public Image findSuccessIcon() {
         return new Image(getClass().getResourceAsStream("icon-success.gif"));
     }
 
     /**
      * 失败-图片
      */
-    private Image findFailureIcon() {
+    public Image findFailureIcon() {
         return new Image(getClass().getResourceAsStream("icon-failure.gif"));
     }
 

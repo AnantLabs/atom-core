@@ -23,7 +23,7 @@
             <Font name="System Bold" size="14.0" />
           </font>
         </Label>
-        <Label fx:id="lblContent" text="details" textAlignment="LEFT" wrapText="true">
+        <Label fx:id="lblDesp" text="details" textAlignment="LEFT" wrapText="true">
           <font>
             <Font size="12.0" />
           </font>
