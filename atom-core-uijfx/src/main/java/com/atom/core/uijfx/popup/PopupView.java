@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang.StringUtils;
 
 import com.atom.core.lang.utils.LogUtils;
+import com.atom.core.uijfx.IconImageHolder;
 
 /**
  * 弹出框
@@ -127,6 +128,15 @@ public class PopupView implements PopupConst {
     /**
      * 设置图片信息
      */
+    public PopupView setImage(int imgValue) {
+        if ((IMG_FAILURE & imgValue) == imgValue) {
+            this.image = this.findFailureIcon();
+        } else if ((IMG_SUCCESS & imgValue) == imgValue) {
+            this.image = this.findSuccessIcon();
+        }
+        return this;
+    }
+
     public PopupView setImage(Image img) {
         this.image = img;
         return this;
@@ -231,9 +241,11 @@ public class PopupView implements PopupConst {
         }
 
         // 窗口Icon
-        if (this.iconImages != null && !this.iconImages.isEmpty()) {
-            this.newStage.getIcons().addAll(this.iconImages);
+        if (this.iconImages == null || this.iconImages.isEmpty()) {
+            this.iconImages = IconImageHolder.getIconImages();
         }
+        
+        this.newStage.getIcons().addAll(this.iconImages);
 
         // 标题
         if (this.title != null) {
@@ -349,13 +361,6 @@ public class PopupView implements PopupConst {
         }
 
         buttons.add(btnHelp);
-    }
-
-    /**
-     * 一般-图片
-     */
-    public Image findNormalIcon() {
-        return new Image(getClass().getResourceAsStream("icon-success.gif"));
     }
 
     /**
