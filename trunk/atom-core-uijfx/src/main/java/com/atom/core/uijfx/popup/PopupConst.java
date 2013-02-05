@@ -21,6 +21,9 @@ public interface PopupConst {
     /** 图片-成功 */
     public static final int    IMG_SUCCESS                = 2;
 
+    /** 图片-确认 */
+    public static final int    IMG_CONFIRM                = 2;
+
     /** 确定 */
     public static final int    BTN_SURE_VALUE             = 1;
 

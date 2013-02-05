@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -244,7 +245,7 @@ public class PopupView implements PopupConst {
         if (this.iconImages == null || this.iconImages.isEmpty()) {
             this.iconImages = IconImageHolder.getIconImages();
         }
-        
+
         this.newStage.getIcons().addAll(this.iconImages);
 
         // 标题
@@ -291,7 +292,7 @@ public class PopupView implements PopupConst {
                 this.initCancelButton(buttons);
             }
 
-            if ((this.btnStyle & BTN_HELP_VALUE) == BTN_HELP_VALUE) {
+            if ((this.btnStyle & BTN_HELP_VALUE) == BTN_HELP_VALUE && StringUtils.isNotBlank(this.helpDocUrl)) {
                 // 帮助
                 this.initHelpButton(buttons);
             }
@@ -320,7 +321,11 @@ public class PopupView implements PopupConst {
                 if (callback != null) {
                     callback.callback(newStage, value);
                 } else {
-                    newStage.close();
+                    Platform.runLater(new Runnable() {
+                        public void run() {
+                            newStage.close();
+                        }
+                    });
                 }
             }
         });
