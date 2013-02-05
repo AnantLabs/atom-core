@@ -22,22 +22,51 @@ public final class PopupUtils {
      * @param desp  提示内容
      */
     public static void alert(Stage stage, String title, String desp) {
-        alert(stage, title, desp, null);
+        PopupView view = new PopupView(stage).setModal(true);
+        view.setTitle(title).setImage(PopupConst.IMG_FAILURE).setDesp(desp);
+
+        view.show();
+    }
+
+    /**
+     * 弹出失败窗口
+     * 
+     * @param stage 应用主场景
+     * @param title 窗口标题
+     * @param desp  提示内容
+     */
+    public static void failure(Stage stage, String title, String desp) {
+        failure(stage, title, desp, null);
     }
     
     /**
-     * 弹出警告窗口
+     * 弹出失败窗口
      * 
      * @param stage 应用主场景
      * @param title 窗口标题
      * @param desp  提示内容
      * @param helpUrl 帮助信息
      */
-    public static void alert(Stage stage, String title, String desp, String helpUrl) {
+    public static void failure(Stage stage, String title, String desp, String helpUrl) {
         PopupView view = new PopupView(stage).setModal(true);
-        view.setTitle(title).setImage(view.findFailureIcon()).setDesp(desp).setHelpDocUrl(helpUrl);
-        
+        view.setTitle(title).setImage(PopupConst.IMG_FAILURE).setDesp(desp).setHelpDocUrl(helpUrl);
+
         view.show();
     }
     
+    /**
+     * 弹出成功窗口
+     * 
+     * @param stage 应用主场景
+     * @param title 窗口标题
+     * @param desp  提示内容
+     * @param helpUrl 帮助信息
+     */
+    public static void success(Stage stage, String title, String desp) {
+        PopupView view = new PopupView(stage).setModal(true);
+        view.setTitle(title).setImage(PopupConst.IMG_SUCCESS).setDesp(desp);
+
+        view.show();
+    }
+
 }

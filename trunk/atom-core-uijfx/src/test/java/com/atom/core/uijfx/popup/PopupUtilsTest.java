@@ -23,8 +23,7 @@ public class PopupUtilsTest extends Application {
      * @see javafx.application.Application#start(javafx.stage.Stage)
      */
     public void start(Stage stage) throws Exception {
-        // PopupUtils.alert(stage, "出错提示", "输入有误，请检查重新输入");
-        PopupUtils.alert(stage, "出错提示", "输入有误，请检查重新输入", "c:/01.txt");
+        PopupUtils.alert(stage, "出错提示", "输入有误，请检查重新输入");
     }
 
 }

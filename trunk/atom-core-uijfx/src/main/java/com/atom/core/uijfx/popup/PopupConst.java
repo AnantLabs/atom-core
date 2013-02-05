@@ -15,6 +15,12 @@ public interface PopupConst {
     /** 默认标题 */
     public static final String DEFAULT_TITLE              = "提示对话窗口";
 
+    /** 图片-失败 */
+    public static final int    IMG_FAILURE                = 1;
+
+    /** 图片-成功 */
+    public static final int    IMG_SUCCESS                = 2;
+
     /** 确定 */
     public static final int    BTN_SURE_VALUE             = 1;
 
