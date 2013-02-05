@@ -4,8 +4,13 @@
  */
 package com.atom.core.uijfx;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.atom.core.lang.utils.LogUtils;
+
+import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import javafx.scene.Parent;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -16,63 +21,187 @@ import javafx.stage.Stage;
  * @version $Id: BaseView.java, 2012-8-18 下午8:25:49 Exp $
  */
 public abstract class BaseView {
+    /** 初始化标志 */
+    private final AtomicBoolean init = new AtomicBoolean(false);
 
-    /** 主要窗体 */
-    protected final Stage primaryStage;
-    
-    /** 主要场景 */
-    protected final Scene primaryScene;
-    
-    /** 主要组件组 */
-    protected final Group primaryGroup;
+    /** 主窗体 */
+    private Stage               stage;
+
+    /** 主场景 */
+    private final Scene         scene;
+
+    /** 组件组 */
+    private final Group         group;
 
     /**
      * CTOR
      */
-    protected BaseView(final Stage stage) {
-        this.primaryStage = stage;
-        this.primaryGroup = new Group();
-        this.primaryScene = new Scene(this.primaryGroup);
+    public BaseView() {
+        this.group = new Group();
+        this.scene = new Scene(this.group);
+    }
+
+    public BaseView(Stage stage) {
+        this();
+
+        this.stage = stage;
     }
 
     /**
-     * 窗体大小
+     * 窗体尺寸
      */
-    public abstract UISize findSize();
+    public Dimension2D findSize() {
+        return new Dimension2D(600.0, 500.0);
+    }
+
+    /**
+     * 窗体最小尺寸
+     */
+    public Dimension2D findMinSize() {
+        return new Dimension2D(400.0, 300.0);
+    }
+
+    /**
+     * 窗体最大尺寸
+     */
+    public Dimension2D findMaxSize() {
+        return new Dimension2D(Double.MAX_VALUE, Double.MAX_VALUE);
+    }
 
     /**
      * 窗体是否可以改变大小
      */
-    protected boolean isResizable() {
+    public boolean isResizable() {
         return false;
+    }
+
+    /**
+     * 适应窗口大小
+     */
+    public boolean isSizeToScene() {
+        return false;
+    }
+
+    /**
+     * 窗口居中
+     */
+    public boolean isCenterOnScreen() {
+        return true;
     }
 
     /**
      * 窗体标题
      */
-    protected abstract String findTitle();
-    
+    public abstract String findTitle();
+
     /**
      * 初始化窗体
      */
-    protected abstract <T extends Parent> T initViews();
-    
+    public abstract <T extends Node> T findView();
+
+    /**
+     * 设置主场景
+     */
+    public BaseView setStage(Stage stage) {
+        // 参数检查
+        if (stage == null) {
+            String msg = "初始化视图[" + this.getClass().getName() + "]失败，主场景Stage为NULL！";
+            LogUtils.error(msg, new RuntimeException());
+            throw new RuntimeException(msg);
+        }
+
+        this.stage = stage;
+        return this;
+    }
+
+    /**
+     * 初始化窗体
+     */
+    public BaseView initViews() {
+        // 初始化控制
+        if (this.init.get()) {
+            String msg = "视图[" + this.getClass().getName() + "]已经被初始化！";
+            LogUtils.error(msg, new RuntimeException());
+            throw new RuntimeException(msg);
+        }
+
+        // 初始化
+        this.init.set(true);
+
+        return this;
+    }
+
+    /**
+     * 初始化窗体
+     */
+    public BaseView initViews(Stage stage) {
+        // 参数检查
+        if (stage == null) {
+            String msg = "初始化视图[" + this.getClass().getName() + "]失败，主场景Stage为NULL！";
+            LogUtils.error(msg, new RuntimeException());
+            throw new RuntimeException(msg);
+        }
+
+        // 主场景
+        this.stage = stage;
+
+        return initViews();
+    }
+
     /**
      * 展示窗体
      */
-    protected void show() {
-        this.primaryGroup.getChildren().add(this.initViews());
-        this.primaryStage.setScene(this.primaryScene);
+    public void show() {
+        if (this.stage == null || !this.init.get()) {
+            String msg = "视图[" + this.getClass().getName() + "]未初始化，请通过#initViews(Stage)方法进行初始化！";
+            LogUtils.error(msg, new RuntimeException());
+            throw new RuntimeException(msg);
+        }
+
+        this.group.getChildren().add(this.findView());
+        this.stage.setScene(this.scene);
+
+        this.stage.setTitle(this.findTitle());
+
+        this.stage.setWidth(this.findSize().getWidth());
+        this.stage.setHeight(this.findSize().getHeight());
+
+        if (this.findMinSize().getWidth() + this.findMinSize().getHeight() > 1.0D) {
+            this.stage.setMinWidth(this.findMinSize().getWidth());
+            this.stage.setMinHeight(this.findMinSize().getHeight());
+        }
+
+        if (this.findMaxSize().getWidth() + this.findMaxSize().getHeight() > 1.0D) {
+            this.stage.setMaxWidth(this.findMaxSize().getWidth());
+            this.stage.setMaxHeight(this.findMaxSize().getHeight());
+        }
+
+        this.stage.setResizable(this.isResizable());
         
-        this.primaryStage.setTitle(this.findTitle());
-        this.primaryStage.setWidth(this.findSize().getWidth());
-        this.primaryStage.setHeight(this.findSize().getHeight());
-        this.primaryStage.setResizable(this.isResizable());
-        
-        this.primaryStage.sizeToScene();
-        this.primaryStage.centerOnScreen();
-        
-        this.primaryStage.show();
+        if (this.isSizeToScene()) {
+            this.stage.sizeToScene();
+        }
+
+        if (this.isCenterOnScreen()) {
+            this.stage.centerOnScreen();
+        }
+
+        // 展示
+        this.stage.show();
     }
-    
+
+    // ~~~~~~~~~~~ getters and setters ~~~~~~~~~~~~ //
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
 }
