@@ -4,6 +4,9 @@
  */
 package com.atom.core.uijfx.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -11,6 +14,9 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import org.apache.commons.lang.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 /**
  * WebView视图基类
@@ -59,28 +65,72 @@ public abstract class BaseWebView extends BaseView {
      */
     public void onWebLoadSucceeded() {
     }
-    
+
     /**
      * 取得WebView对象
      */
     public final WebView findWebView() {
         return this.webView;
     }
-    
+
     /**
      * 取得WebEngine对象
      */
     public final WebEngine findWebEngine() {
         return this.webEngine;
     }
-    
+
+    /**
+     * 根据ID获取节点信息，可能返回NULL对象！
+     */
+    public final Element findElementByID(String id) {
+        if (StringUtils.isBlank(id)) {
+            return null;
+        }
+
+        Document doc = this.findWebEngine().getDocument();
+        if (doc == null) {
+            return null;
+        }
+
+        return doc.getElementById(id);
+    }
+
+    /**
+     * 根据节点标签获取所有节点，可能返回空列表对象！
+     */
+    public final List<Element> findElementsByTag(String tag) {
+        List<Element> eles = new ArrayList<Element>();
+
+        if (StringUtils.isBlank(tag)) {
+            return eles;
+        }
+
+        Document doc = this.findWebEngine().getDocument();
+        if (doc == null) {
+            return eles;
+        }
+
+        NodeList nodes = doc.getElementsByTagName(tag);
+        if (nodes == null) {
+            return eles;
+        }
+
+        int count = nodes.getLength();
+        for (int i = 0; i < count; i++) {
+            eles.add((Element) nodes.item(i));
+        }
+
+        return eles;
+    }
+
     /**
      * 停止Vedio视频
      */
     public void stopVedio(String vedioId) {
         String script = "document.getElementById('$ID$').currentTime=0; document.getElementById('$ID$').pause();";
         script = StringUtils.replace(script, "$ID$", vedioId);
-        
+
         this.webEngine.executeScript(script);
     }
 
