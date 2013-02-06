@@ -8,12 +8,12 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
- * TabPane基础视图
+ * TabPane基础视图，扩展并增加了通用方法。
  * 
  * @author obullxl@gmail.com
  * @version $Id: BaseTabPane.java, V1.0.1 2013-2-6 下午1:37:47 $
  */
-public abstract class BaseTabPane extends BaseView {
+public abstract class BaseTabPane {
 
     /**
      * CTOR

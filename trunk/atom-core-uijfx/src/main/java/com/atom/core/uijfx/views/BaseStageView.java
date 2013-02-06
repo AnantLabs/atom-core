@@ -15,12 +15,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * UI组件
+ * 主场景UI组件，扩展并增加了通用方法。
+ * <p/>
+ * 一般情况下，由控制器Controller继承该类！
  * 
  * @author obullxl@gmail.com
  * @version $Id: BaseView.java, 2012-8-18 下午8:25:49 Exp $
  */
-public abstract class BaseView {
+public abstract class BaseStageView {
     /** 初始化标志 */
     private final AtomicBoolean init = new AtomicBoolean(false);
 
@@ -36,12 +38,12 @@ public abstract class BaseView {
     /**
      * CTOR
      */
-    public BaseView() {
+    public BaseStageView() {
         this.group = new Group();
         this.scene = new Scene(this.group);
     }
 
-    public BaseView(Stage stage) {
+    public BaseStageView(Stage stage) {
         this();
 
         this.stage = stage;
@@ -105,7 +107,7 @@ public abstract class BaseView {
     /**
      * 设置主场景
      */
-    public BaseView setStage(Stage stage) {
+    public BaseStageView setStage(Stage stage) {
         // 参数检查
         if (stage == null) {
             String msg = "初始化视图[" + this.getClass().getName() + "]失败，主场景Stage为NULL！";
@@ -120,7 +122,7 @@ public abstract class BaseView {
     /**
      * 初始化窗体
      */
-    public BaseView initViews() {
+    public BaseStageView initViews() {
         // 初始化控制
         if (this.init.get()) {
             String msg = "视图[" + this.getClass().getName() + "]已经被初始化！";
@@ -137,7 +139,7 @@ public abstract class BaseView {
     /**
      * 初始化窗体
      */
-    public BaseView initViews(Stage stage) {
+    public BaseStageView initViews(Stage stage) {
         // 参数检查
         if (stage == null) {
             String msg = "初始化视图[" + this.getClass().getName() + "]失败，主场景Stage为NULL！";
