@@ -6,13 +6,12 @@ package com.atom.core.uijfx.views;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.atom.core.lang.utils.LogUtils;
-
 import javafx.geometry.Dimension2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import com.atom.core.lang.utils.LogUtils;
 
 /**
  * 主场景UI组件，扩展并增加了通用方法。
@@ -30,17 +29,12 @@ public abstract class BaseStageView {
     private Stage               stage;
 
     /** 主场景 */
-    private final Scene         scene;
-
-    /** 组件组 */
-    private final Group         group;
+    private Scene               scene;
 
     /**
      * CTOR
      */
     public BaseStageView() {
-        this.group = new Group();
-        this.scene = new Scene(this.group);
     }
 
     public BaseStageView(Stage stage) {
@@ -52,9 +46,7 @@ public abstract class BaseStageView {
     /**
      * 窗体尺寸
      */
-    public Dimension2D findSize() {
-        return new Dimension2D(600.0, 500.0);
-    }
+    public abstract Dimension2D findSize();
 
     /**
      * 窗体最小尺寸
@@ -102,7 +94,7 @@ public abstract class BaseStageView {
      * 该内容作为主场景根节点，一般为Pane，如BorderPane，AnchorPane等等。<br/>
      * 该对象一般为最顶层视图构建。
      */
-    public abstract <T extends Node> T findGroupView();
+    public abstract <T extends Parent> T findGroupView();
 
     /**
      * 设置主场景
@@ -156,13 +148,10 @@ public abstract class BaseStageView {
             throw new RuntimeException(msg);
         }
 
-        this.group.getChildren().add(this.findGroupView());
+        this.scene = new Scene(this.findGroupView(), this.findSize().getWidth(), this.findSize().getHeight());
         this.stage.setScene(this.scene);
 
         this.stage.setTitle(this.findTitle());
-
-        this.stage.setWidth(this.findSize().getWidth());
-        this.stage.setHeight(this.findSize().getHeight());
 
         if (this.findMinSize().getWidth() + this.findMinSize().getHeight() > 1.0D) {
             this.stage.setMinWidth(this.findMinSize().getWidth());
@@ -196,10 +185,6 @@ public abstract class BaseStageView {
 
     public final Scene findScene() {
         return this.scene;
-    }
-
-    public final Group findGroup() {
-        return this.group;
     }
 
 }
