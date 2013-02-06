@@ -95,9 +95,12 @@ public abstract class BaseView {
     public abstract String findTitle();
 
     /**
-     * 初始化窗体
+     * 获取组窗体。
+     * <p/>
+     * 该内容作为主场景根节点，一般为Pane，如BorderPane，AnchorPane等等。<br/>
+     * 该对象一般为最顶层视图构建。
      */
-    public abstract <T extends Node> T findView();
+    public abstract <T extends Node> T findGroupView();
 
     /**
      * 设置主场景
@@ -158,7 +161,7 @@ public abstract class BaseView {
             throw new RuntimeException(msg);
         }
 
-        this.group.getChildren().add(this.findView());
+        this.group.getChildren().add(this.findGroupView());
         this.stage.setScene(this.scene);
 
         this.stage.setTitle(this.findTitle());
@@ -192,16 +195,16 @@ public abstract class BaseView {
 
     // ~~~~~~~~~~~ getters and setters ~~~~~~~~~~~~ //
 
-    public Stage getStage() {
-        return stage;
+    public final Stage findStage() {
+        return this.stage;
     }
 
-    public Scene getScene() {
-        return scene;
+    public final Scene findScene() {
+        return this.scene;
     }
 
-    public Group getGroup() {
-        return group;
+    public final Group findGroup() {
+        return this.group;
     }
 
 }
