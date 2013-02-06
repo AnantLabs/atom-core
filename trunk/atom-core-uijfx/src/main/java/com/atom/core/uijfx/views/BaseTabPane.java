@@ -167,4 +167,34 @@ public abstract class BaseTabPane {
         return (T) object;
     }
 
+    /**
+     * 删除Tab标签
+     */
+    public final void removeTab(Tab tab) {
+        if(tab == null) {
+            return;
+        }
+        
+        TabPane tabpane = this.findTabPane();
+        if (tabpane == null) {
+            return;
+        }
+
+        tabpane.getTabs().removeAll(tab);
+    }
+
+    /**
+     * 根据用户数据删除Tab标签
+     */
+    public final Tab removeTab(Object userData) {
+        if(userData == null) {
+            return null;
+        }
+
+        Tab tab = this.findTab(userData);
+        this.removeTab(tab);
+
+        return tab;
+    }
+
 }

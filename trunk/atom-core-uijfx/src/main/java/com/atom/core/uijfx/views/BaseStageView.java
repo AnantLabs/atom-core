@@ -60,14 +60,14 @@ public abstract class BaseStageView {
      * 窗体最小尺寸
      */
     public Dimension2D findMinSize() {
-        return new Dimension2D(400.0, 300.0);
+        return new Dimension2D(0.0, 0.0);
     }
 
     /**
      * 窗体最大尺寸
      */
     public Dimension2D findMaxSize() {
-        return new Dimension2D(Double.MAX_VALUE, Double.MAX_VALUE);
+        return new Dimension2D(0.0, 0.0);
     }
 
     /**
@@ -122,7 +122,14 @@ public abstract class BaseStageView {
     /**
      * 初始化窗体
      */
-    public BaseStageView initViews() {
+    public BaseStageView initViews(Stage stage) {
+        // 参数检查
+        if (stage == null) {
+            String msg = "初始化视图[" + this.getClass().getName() + "]失败，主场景Stage为NULL！";
+            LogUtils.error(msg, new RuntimeException());
+            throw new RuntimeException(msg);
+        }
+
         // 初始化控制
         if (this.init.get()) {
             String msg = "视图[" + this.getClass().getName() + "]已经被初始化！";
@@ -133,24 +140,10 @@ public abstract class BaseStageView {
         // 初始化
         this.init.set(true);
 
-        return this;
-    }
-
-    /**
-     * 初始化窗体
-     */
-    public BaseStageView initViews(Stage stage) {
-        // 参数检查
-        if (stage == null) {
-            String msg = "初始化视图[" + this.getClass().getName() + "]失败，主场景Stage为NULL！";
-            LogUtils.error(msg, new RuntimeException());
-            throw new RuntimeException(msg);
-        }
-
         // 主场景
         this.stage = stage;
 
-        return initViews();
+        return this;
     }
 
     /**
@@ -182,7 +175,7 @@ public abstract class BaseStageView {
         }
 
         this.stage.setResizable(this.isResizable());
-        
+
         if (this.isSizeToScene()) {
             this.stage.sizeToScene();
         }
