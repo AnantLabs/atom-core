@@ -2,7 +2,7 @@
  * Author: obullxl@gmail.com
  * Copyright (c) 2004-2013 All Rights Reserved.
  */
-package com.atom.core.uijfx;
+package com.atom.core.uijfx.views;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -192,24 +192,15 @@ public abstract class BaseView {
 
     // ~~~~~~~~~~~ getters and setters ~~~~~~~~~~~~ //
 
-    /**
-     * 获取主窗体
-     */
-    public final Stage findStage() {
+    public Stage getStage() {
         return stage;
     }
 
-    /**
-     * 获取主场景
-     */
-    public final Scene findScene() {
+    public Scene getScene() {
         return scene;
     }
 
-    /**
-     * 获取组件组根
-     */
-    public final Group findGroup() {
+    public Group getGroup() {
         return group;
     }
 
