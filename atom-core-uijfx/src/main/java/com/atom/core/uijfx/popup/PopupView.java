@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import org.apache.commons.lang.StringUtils;
 
 import com.atom.core.lang.utils.LogUtils;
-import com.atom.core.uijfx.IconImageHolder;
+import com.atom.core.uijfx.utils.IconsHolder;
 
 /**
  * 弹出框
@@ -243,7 +243,7 @@ public class PopupView implements PopupConst {
 
         // 窗口Icon
         if (this.iconImages == null || this.iconImages.isEmpty()) {
-            this.iconImages = IconImageHolder.getIconImages();
+            this.iconImages = IconsHolder.getIconImages();
         }
 
         this.newStage.getIcons().addAll(this.iconImages);

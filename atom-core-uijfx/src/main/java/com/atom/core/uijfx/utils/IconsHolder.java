@@ -2,7 +2,7 @@
  * Author: obullxl@gmail.com
  * Copyright (c) 2004-2013 All Rights Reserved.
  */
-package com.atom.core.uijfx;
+package com.atom.core.uijfx.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,14 @@ import java.util.List;
 import javafx.scene.image.Image;
 
 /**
- * 应用IconImage持有器，应用启动时设置
+ * 应用IconImage持有器，应用系统在启动时设置值，后续从该持有器中获取。
  * 
  * @author obullxl@gmail.com
- * @version $Id: IconImageHolder.java, V1.0.1 2013-2-5 下午12:18:14 $
+ * @version $Id: IconsHolder.java, V1.0.1 2013-2-6 下午12:54:19 $
  */
-public final class IconImageHolder {
+public class IconsHolder {
     /** 图片列表 */
-    private static final List<Image> icons = new ArrayList<Image>();
+    private static final List<Image> _icons = new ArrayList<Image>();
 
     /**
      * 设置图片列表
@@ -27,8 +27,8 @@ public final class IconImageHolder {
             return;
         }
 
-        icons.clear();
-        icons.addAll(images);
+        _icons.clear();
+        _icons.addAll(images);
     }
     
     /**
@@ -39,14 +39,14 @@ public final class IconImageHolder {
             return;
         }
 
-        icons.add(image);
+        _icons.add(image);
     }
 
     /**
      * 获取图片列表
      */
     public static List<Image> getIconImages() {
-        return new ArrayList<Image>(icons);
+        return new ArrayList<Image>(_icons);
     }
-
+    
 }
