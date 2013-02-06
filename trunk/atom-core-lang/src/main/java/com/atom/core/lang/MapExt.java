@@ -312,6 +312,18 @@ public class MapExt extends ConcurrentHashMap<String, String> implements Cloneab
         return NumberUtils.toDouble(this.get(key), defaultValue);
     }
 
+    /**
+     * 取得Money值，默认值为‘0.00元’。
+     */
+    public Money getMoney(String key) {
+        String value = this.get(key);
+        if (StringUtils.isBlank(value)) {
+            return new Money(0, 0);
+        } else {
+            return new Money(value);
+        }
+    }
+
     // ~~~~~~~~~~~ getters and setters ~~~~~~~~~~~~~ //
 
     public String getEntrySeparator() {
