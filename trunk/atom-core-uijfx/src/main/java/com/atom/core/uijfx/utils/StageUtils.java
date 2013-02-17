@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -56,4 +57,26 @@ public class StageUtils {
     public static Rectangle2D findScreenSize() {
         return Screen.getPrimary().getVisualBounds();
     }
+
+    /**
+     * 设置弹出窗口居中其父窗口
+     * 
+     * @param stage 父窗口
+     * @param newStage 子窗口
+     */
+    public static void centerNewStage(Stage stage, Stage newStage) {
+        if (stage == null || newStage == null) {
+            return;
+        }
+
+        double x = (stage.getX() + stage.getScene().getWidth() / 2);
+        double y = (stage.getY() + stage.getScene().getHeight() / 2);
+
+        x -= newStage.getScene().getWidth() / 2;
+        y -= newStage.getScene().getHeight() / 2;
+
+        newStage.setX(x);
+        newStage.setY(y);
+    }
+
 }

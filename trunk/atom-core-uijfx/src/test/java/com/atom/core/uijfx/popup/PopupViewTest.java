@@ -4,8 +4,9 @@
  */
 package com.atom.core.uijfx.popup;
 
-import javafx.application.Application;
 import javafx.stage.Stage;
+
+import com.atom.core.uijfx.test.BaseTest;
 
 /**
  * PopupView测试
@@ -13,16 +14,16 @@ import javafx.stage.Stage;
  * @author obullxl@gmail.com
  * @version $Id: PopupViewTest.java, V1.0.1 2013-2-5 上午10:19:57 $
  */
-public class PopupViewTest extends Application {
+public class PopupViewTest extends BaseTest {
 
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     /** 
-     * @see javafx.application.Application#start(javafx.stage.Stage)
+     * @see com.atom.core.uijfx.test.BaseTest#onTest(javafx.stage.Stage)
      */
-    public void start(Stage stage) throws Exception {
+    public void onTest(Stage stage) {
         PopupView view = new PopupView(stage);
         
         view.show();
