@@ -19,6 +19,16 @@ public final class PopupUtils {
      * 弹出警告窗口
      * 
      * @param stage 应用主场景
+     * @param desp  提示内容
+     */
+    public static void alert(Stage stage, String desp) {
+        alert(stage, "操作提示", desp);
+    }
+    
+    /**
+     * 弹出警告窗口
+     * 
+     * @param stage 应用主场景
      * @param title 窗口标题
      * @param desp  提示内容
      */
@@ -59,6 +69,16 @@ public final class PopupUtils {
      * 弹出成功窗口
      * 
      * @param stage 应用主场景
+     * @param desp  提示内容
+     */
+    public static void success(Stage stage, String desp) {
+        success(stage, "成功提示", desp);
+    }
+    
+    /**
+     * 弹出成功窗口
+     * 
+     * @param stage 应用主场景
      * @param title 窗口标题
      * @param desp  提示内容
      */
@@ -68,7 +88,7 @@ public final class PopupUtils {
 
         view.show();
     }
-
+    
     /**
      * 弹出确认窗口
      * 

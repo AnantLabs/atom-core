@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>WebView单元测试01</title>
+<script language="javascript" src="spt/jquery-1.9.0.min.js"></script>
+<script language="javascript">
+	function doAdd() {
+		app.doAdd(2, 3);
+	}
+	
+	function multiply(a, b) {
+		$("#add-container").text(a*b);
+	}
+</script>
+</head>
+
+<body>
+<h1>WebView单元测试01</h1>
+<div id="add-container">0</div>
+
+<input type="button" onclick="doAdd()" value="App:doAdd"/>
+<input type="button" onclick="app.exit()" value="App:exit"/>
+</body>
+</html>

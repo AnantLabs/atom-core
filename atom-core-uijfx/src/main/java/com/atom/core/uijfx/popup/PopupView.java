@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.atom.core.lang.utils.LogUtils;
 import com.atom.core.uijfx.utils.IconsHolder;
+import com.atom.core.uijfx.utils.StageUtils;
 
 /**
  * 弹出框
@@ -134,7 +135,10 @@ public class PopupView implements PopupConst {
             this.image = this.findFailureIcon();
         } else if ((IMG_SUCCESS & imgValue) == imgValue) {
             this.image = this.findSuccessIcon();
+        } else if ((IMG_CONFIRM & imgValue) == imgValue) {
+            this.image = this.findConfirmIcon();
         }
+
         return this;
     }
 
@@ -307,6 +311,9 @@ public class PopupView implements PopupConst {
         this.newStage.sizeToScene();
         this.newStage.setResizable(false);
         this.newStage.show();
+
+        // 设置弹出窗口居中其父窗口
+        StageUtils.centerNewStage(this.stage, this.newStage);
     }
 
     /**
@@ -372,14 +379,21 @@ public class PopupView implements PopupConst {
      * 成功-图片
      */
     public Image findSuccessIcon() {
-        return new Image(getClass().getResourceAsStream("icon-success.gif"));
+        return new Image(getClass().getResourceAsStream("icon-success.gif"), 50, 50, false, false);
     }
 
     /**
      * 失败-图片
      */
     public Image findFailureIcon() {
-        return new Image(getClass().getResourceAsStream("icon-failure.gif"));
+        return new Image(getClass().getResourceAsStream("icon-failure.gif"), 50, 50, false, false);
+    }
+
+    /**
+     * 确认-图片
+     */
+    public Image findConfirmIcon() {
+        return new Image(getClass().getResourceAsStream("icon-confirm.png"), 50, 50, false, false);
     }
 
 }
