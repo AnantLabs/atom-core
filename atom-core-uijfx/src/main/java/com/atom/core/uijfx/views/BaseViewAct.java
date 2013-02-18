@@ -15,6 +15,8 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -110,12 +112,23 @@ public abstract class BaseViewAct {
     public final Stage findStage() {
         return this.stage;
     }
-    
+
     /**
      * 获取新Stage舞台，可能为NULL对象
      */
     public final Stage findNewStage() {
         return this.newStage;
+    }
+
+    /**
+     * 获取最新舞台
+     */
+    public final Stage findTopStage() {
+        if (this.newStage != null) {
+            return this.newStage;
+        }
+
+        return this.stage;
     }
 
     /**
@@ -180,7 +193,7 @@ public abstract class BaseViewAct {
     public final ObjectProperty<Parent> findGroupViewProperty() {
         return this.groupView;
     }
-    
+
     /**
      * 样式列表
      */
@@ -281,10 +294,25 @@ public abstract class BaseViewAct {
             }
         }
 
+        // 初始化组件事件
+        this.initViewEvent();
+
         // 初始化完成动作
         this.initViewShown();
 
         return this;
+    }
+
+    /**
+     * 初始化组件参数事件
+     */
+    private final void initViewEvent() {
+        // 窗口标题更改事件
+        this.findTitleProperty().addListener(new ChangeListener<String>() {
+            public void changed(ObservableValue<? extends String> prop, String oldValue, String newValue) {
+                findTopStage().setTitle(newValue);
+            }
+        });
     }
 
     /**
@@ -307,17 +335,17 @@ public abstract class BaseViewAct {
         }
 
         Parent rootView = this.findGroupViewProperty().get();
-        if(rootView == null) {
+        if (rootView == null) {
             throw new RuntimeException("舞台场景根视图为NULL，请通过#findGroupViewProperty().set(Parent)进行设置！");
         }
-        
+
         Scene scene = new Scene(rootView, size.getWidth(), size.getHeight());
-        
+
         List<String> styleSheets = this.findStyleSheetsProperty().get();
         if (styleSheets != null && !styleSheets.isEmpty()) {
             scene.getStylesheets().addAll(styleSheets);
         }
-        
+
         stage.setScene(scene);
 
         // 压缩
