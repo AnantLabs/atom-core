@@ -53,8 +53,10 @@ public class PopupView implements PopupConst {
     private Image        image;
     private String       title;
 
+    /*
     @FXML
     private Label        lblMsg;
+    */
     @FXML
     private Label        lblDesp;
 
@@ -93,7 +95,7 @@ public class PopupView implements PopupConst {
      */
     protected void initViews() {
         // 清空测试文本
-        this.lblMsg.setText(StringUtils.EMPTY);
+        //this.lblMsg.setText(StringUtils.EMPTY);
         this.lblDesp.setText(StringUtils.EMPTY);
 
         // 删除原按钮
@@ -158,11 +160,13 @@ public class PopupView implements PopupConst {
     /**
      * 设置提示信息标题
      */
+    /*
     public PopupView setMsg(String msg) {
-        this.lblMsg.setText(msg);
+       // this.lblMsg.setText(msg);
         return this;
     }
-
+    */
+    
     /**
      * 设置提示信息内容
      */
@@ -268,9 +272,11 @@ public class PopupView implements PopupConst {
         }
 
         // 提示内容
+        /*
         if (StringUtils.isBlank(this.lblMsg.getText())) {
             this.lblMsg.setVisible(false);
         }
+        */
         if (StringUtils.isBlank(this.lblDesp.getText())) {
             this.lblDesp.setVisible(false);
         }

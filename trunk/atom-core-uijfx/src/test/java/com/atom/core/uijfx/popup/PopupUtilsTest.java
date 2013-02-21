@@ -26,9 +26,9 @@ public class PopupUtilsTest extends BaseTest {
      * @see com.atom.core.uijfx.test.BaseTest#onTest(javafx.stage.Stage)
      */
     public void onTest(Stage stage) {
-        // PopupUtils.alert(stage, "出错提示", "输入有误，请检查重新输入");
+        PopupUtils.alert(stage, "出错提示", "输入有误，请检查重新输入，输入有误，请检查重新输入，输入有误，请检查重新输入，输入有误，请检查重新输入，输入有误，请检查重新输入");
         // font    : Font.font("宋体", 14)
-        PopupUtils.confirm(stage, "出错提示", "输入有误，请检查重新输入", null);
+        PopupUtils.confirm(stage, "出错提示", "输入有误，<b>请检查重新输入</b>", null);
     }
 
 }

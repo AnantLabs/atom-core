@@ -16,13 +16,15 @@
         <!-- place holder -->
       </image>
     </ImageView>
-    <VBox maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity" prefWidth="350.0" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+    <VBox maxHeight="+Infinity" maxWidth="350.0" minHeight="-Infinity" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0" alignment="CENTER_LEFT">
       <children>
+        <!--
         <Label fx:id="lblMsg" text="message" textAlignment="LEFT" wrapText="true">
           <font>
             <Font name="System Bold" size="16.0" />
           </font>
         </Label>
+        -->
         <Label fx:id="lblDesp" text="details" textAlignment="LEFT" wrapText="true">
           <font>
             <Font size="14.0" />
