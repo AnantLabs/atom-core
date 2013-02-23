@@ -43,6 +43,10 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
         this.id = id;
     }
 
+    public final void setId(long id) {
+        this.id = id;
+    }
+
     /** 
      * @see java.lang.Object#hashCode()
      */
@@ -57,8 +61,8 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
         if (other == null) {
             return false;
         }
-        
-        if(!LongID.class.isAssignableFrom(other.getClass())) {
+
+        if (!LongID.class.isAssignableFrom(other.getClass())) {
             return false;
         }
 
