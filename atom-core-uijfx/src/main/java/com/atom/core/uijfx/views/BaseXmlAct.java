@@ -45,12 +45,18 @@ public abstract class BaseXmlAct extends BaseViewAct {
             if (fxml == null) {
                 // 如果没有指定FXML文件，则默认为与控制器同名的.fxml文件
                 fxml = getClass().getResource(fname);
+                // input = getClass().getResourceAsStream(fname);
             }
 
             if (fxml == null) {
                 // 若在同控制器下没有找到，则到FXML文件夹下搜索
                 String relativePath = FXMLUtils.findRelativePathFXML();
                 fxml = getClass().getResource(relativePath + fname);
+                //input = getClass().getResourceAsStream(relativePath + fname);
+            }
+
+            if (fxml == null) {
+                throw new RuntimeException("初始化JavaFX异常，FXML文件无法找到！");
             }
 
             FXMLLoader loader = new FXMLLoader();
