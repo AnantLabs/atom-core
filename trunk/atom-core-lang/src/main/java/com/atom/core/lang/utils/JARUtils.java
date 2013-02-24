@@ -10,6 +10,9 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
+
 /**
  * JAR包工具类
  *
@@ -28,7 +31,7 @@ public class JARUtils {
      */
     private static final Method initAddMethod() {
         try {
-            Method add = URLClassLoader.class.getDeclaredMethod("addURL", new Class[]{URL.class});
+            Method add = URLClassLoader.class.getDeclaredMethod("addURL", new Class[] { URL.class });
             add.setAccessible(true);
             return add;
         } catch (Exception e) {
@@ -36,6 +39,7 @@ public class JARUtils {
         }
         return null;
     }
+
     private static URLClassLoader system = (URLClassLoader) ClassLoader.getSystemClassLoader();
 
     /**
@@ -63,7 +67,7 @@ public class JARUtils {
      */
     public static final void loadJarFile(File file) {
         try {
-            addURL.invoke(system, new Object[]{file.toURI().toURL()});
+            addURL.invoke(system, new Object[] { file.toURI().toURL() });
             System.out.println("加载JAR包：" + file.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,4 +93,44 @@ public class JARUtils {
             loadJarFile(file);
         }
     }
+
+    /**
+     * 获取URL路径（文件路径或JARA路径）
+     * 
+     * @return 以‘/’开头，并去掉结尾的‘/’字符串。
+     */
+    public static final String findUrlPath(Class<?> clazz) {
+        String pack = clazz.getPackage().getName();
+
+        pack = StringUtils.replaceChars(pack, ".", "/");
+        if (!StringUtils.startsWith(pack, "/")) {
+            pack = "/" + pack;
+        }
+
+        if (StringUtils.endsWith(pack, "/")) {
+            pack = StringUtils.substringBeforeLast(pack, "/");
+        }
+
+        return pack;
+    }
+
+    /**
+     * 获取URL路径（文件路径或JARA路径）
+     * 
+     * @return 以‘/’开头，并去掉结尾的‘/’字符串。
+     */
+    public static final String findUrlPath(Class<?> clazz, String relativePath) {
+        String pack = findUrlPath(clazz);
+
+        if (StringUtils.isBlank(relativePath)) {
+            return pack;
+        }
+
+        if (!StringUtils.startsWith(relativePath, "/")) {
+            relativePath = "/" + relativePath;
+        }
+
+        return FilenameUtils.normalizeNoEndSeparator(pack + relativePath, true);
+    }
+
 }
