@@ -45,22 +45,22 @@ public abstract class BaseViewAct {
     /** 根视图，在初始化时必须设值 */
     private final ObjectProperty<Parent>      groupView      = new SimpleObjectProperty<Parent>();
 
-    /** 舞台标题 */
+    /** 舞台标题属性-展示后可变更 */
     private final StringProperty              title          = new SimpleStringProperty();
 
-    /** 窗口缩放属性 */
+    /** 窗口缩放属性-展示后可变更 */
     private final BooleanProperty             resizable      = new SimpleBooleanProperty(false);
 
-    /** 舞台全屏属性 */
+    /** 舞台全屏属性-展示后不可变更 */
     private final BooleanProperty             fullScreen     = new SimpleBooleanProperty(false);
 
-    /** 舞台紧缩属性 */
+    /** 舞台紧缩属性-展示后不可变更 */
     private final BooleanProperty             sizeToScene    = new SimpleBooleanProperty(false);
 
-    /** 舞台于屏幕之中属性 */
+    /** 舞台于屏幕之中属性-展示后不可变更 */
     private final BooleanProperty             centerOnScreen = new SimpleBooleanProperty(true);
 
-    /** 新舞台居于父舞台之中属性 */
+    /** 新舞台居于父舞台之中属性-展示后不可变更 */
     private final BooleanProperty             centerNewStage = new SimpleBooleanProperty(true);
 
     /** 新舞台模态属性 */
@@ -311,6 +311,13 @@ public abstract class BaseViewAct {
         this.findTitleProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> prop, String oldValue, String newValue) {
                 findTopStage().setTitle(newValue);
+            }
+        });
+
+        // 窗口大小改变事件
+        this.findResizableProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> prop, Boolean oldValue, Boolean newValue) {
+                findTopStage().setResizable(newValue);
             }
         });
     }

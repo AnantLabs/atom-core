@@ -6,6 +6,11 @@ package com.atom.core.uijfx.views;
 
 import java.net.URL;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.StringUtils;
+
+import com.atom.core.lang.utils.LogUtils;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -44,20 +49,20 @@ public abstract class BaseXmlAct extends BaseViewAct {
 
             if (fxml == null) {
                 // 如果没有指定FXML文件，则默认为与控制器同名的.fxml文件
-                fxml = getClass().getResource(fname);
-                // input = getClass().getResourceAsStream(fname);
+                fxml = this.getClass().getResource(fname);
             }
 
             if (fxml == null) {
                 // 若在同控制器下没有找到，则到FXML文件夹下搜索
-                String relativePath = FXMLUtils.findRelativePathFXML();
-                fxml = getClass().getResource(relativePath + fname);
-                //input = getClass().getResourceAsStream(relativePath + fname);
+                String path = this.findUrlPackage(FXMLUtils.findRelativePathFXML());
+                fxml = this.getClass().getResource(path + fname);
             }
 
             if (fxml == null) {
                 throw new RuntimeException("初始化JavaFX异常，FXML文件无法找到！");
             }
+
+            LogUtils.info("FXML文件URL: " + fxml);
 
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(fxml);
@@ -97,5 +102,25 @@ public abstract class BaseXmlAct extends BaseViewAct {
      * 若是弹出窗口，则必须指定新窗口舞台：setNewStage(new Stage())设置弹出窗口舞台！
      */
     public abstract BaseXmlAct initXmlViews();
+
+    /**
+     * 获取URL全路径
+     */
+    private final String findUrlPackage(String relativePath) {
+        String pack = this.getClass().getPackage().getName();
+
+        pack = StringUtils.replaceChars(pack, ".", "/");
+        if (!StringUtils.startsWith(pack, "/")) {
+            pack = "/" + pack;
+        }
+
+        if (!StringUtils.startsWith(relativePath, "/")) {
+            relativePath = "/" + relativePath;
+        }
+
+        pack = FilenameUtils.normalizeNoEndSeparator(pack + relativePath, true);
+
+        return (pack + "/");
+    }
 
 }
