@@ -6,14 +6,14 @@ package com.atom.core.uijfx.views;
 
 import java.net.URL;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
-
-import com.atom.core.lang.utils.LogUtils;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.atom.core.lang.utils.JARUtils;
+import com.atom.core.lang.utils.LogUtils;
 
 /**
  * FXML视图控制器
@@ -54,8 +54,13 @@ public abstract class BaseXmlAct extends BaseViewAct {
 
             if (fxml == null) {
                 // 若在同控制器下没有找到，则到FXML文件夹下搜索
-                String path = this.findUrlPackage(FXMLUtils.findRelativePathFXML());
-                fxml = this.getClass().getResource(path + fname);
+                String path = FXMLUtils.findRelativePathFXML();
+                if (!StringUtils.endsWith(path, "/")) {
+                    path += "/";
+                }
+                path = JARUtils.findUrlPath(this.getClass(), path + fname);
+
+                fxml = this.getClass().getResource(path);
             }
 
             if (fxml == null) {
@@ -102,25 +107,5 @@ public abstract class BaseXmlAct extends BaseViewAct {
      * 若是弹出窗口，则必须指定新窗口舞台：setNewStage(new Stage())设置弹出窗口舞台！
      */
     public abstract BaseXmlAct initXmlViews();
-
-    /**
-     * 获取URL全路径
-     */
-    private final String findUrlPackage(String relativePath) {
-        String pack = this.getClass().getPackage().getName();
-
-        pack = StringUtils.replaceChars(pack, ".", "/");
-        if (!StringUtils.startsWith(pack, "/")) {
-            pack = "/" + pack;
-        }
-
-        if (!StringUtils.startsWith(relativePath, "/")) {
-            relativePath = "/" + relativePath;
-        }
-
-        pack = FilenameUtils.normalizeNoEndSeparator(pack + relativePath, true);
-
-        return (pack + "/");
-    }
 
 }
