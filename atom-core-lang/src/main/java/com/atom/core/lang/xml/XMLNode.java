@@ -7,8 +7,6 @@ package com.atom.core.lang.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Node;
-
 import com.atom.core.lang.MapExt;
 import com.atom.core.lang.ToString;
 
@@ -30,10 +28,7 @@ public class XMLNode extends ToString {
     /** 节点属性（Key为小写） */
     private MapExt            extMap;
 
-    /** XML节点 */
-    private Node              element;
-
-    /** 子节点（目前没有使用） */
+    /** 子节点 */
     private List<XMLNode>     children;
 
     // ~~~~~~~~~~~ 公用方法 ~~~~~~~~~~~ //
@@ -78,14 +73,6 @@ public class XMLNode extends ToString {
 
     public void setExtMap(MapExt extMap) {
         this.extMap = extMap;
-    }
-
-    public Node getElement() {
-        return element;
-    }
-
-    public void setElement(Node node) {
-        this.element = node;
     }
 
 }

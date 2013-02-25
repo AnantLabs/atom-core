@@ -4,8 +4,9 @@
  */
 package com.atom.core.lang.utils;
 
-import java.util.List;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
 import com.atom.core.lang.xml.XMLNode;
@@ -24,24 +25,14 @@ public class XMLUtilsTest {
      */
     @Test
     public void test_XMLUtils() {
+        InputStream input = null;
         try {
-            XMLUtils.start(XMLUtils.class.getResourceAsStream("/XMLUtilsTest.xml"));
-
-            XMLNode root = XMLUtils.findNode("/root");
-            System.out.println("XML根节点：" + root);
-
-            System.out.println("===================================");
-
-            List<XMLNode> values = XMLUtils.findNodes(root.getElement(), "values");
-            System.out.println("Values节点：" + values);
-
-            System.out.println("===================================");
-
-            for (XMLNode value : values) {
-                System.out.println("Value节点：" + XMLUtils.findNodes(value.getElement(), "value"));
-            }
+            input = XMLUtils.class.getResourceAsStream("/XMLUtilsTest.xml");
+            XMLNode root = XMLUtils.toXMLNode(input);
+            
+            System.out.println(root);
         } finally {
-            XMLUtils.finish();
+            IOUtils.closeQuietly(input);
         }
     }
 }
