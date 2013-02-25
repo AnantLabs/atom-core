@@ -10,8 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 /**
  * 系统配置工具类
@@ -30,8 +28,13 @@ public final class KVUtils {
      * 设置系统参数
      */
     public static final void setKeyValue(String key, String value) {
-        Assert.notNull(key, "[系统参数]-设置系统参数-系统参数Key为NULL.");
-        Assert.notNull(value, "[系统参数]-设置系统参数-系统参数Value为NULL.");
+        if (StringUtils.isBlank(key)) {
+            throw new IllegalArgumentException("[系统参数]-设置系统参数-系统参数Key为NULL.");
+        }
+
+        if (StringUtils.isBlank(key)) {
+            throw new IllegalArgumentException("[系统参数]-设置系统参数-系统参数Value为NULL.");
+        }
 
         config.put(key, value);
         System.setProperty(key, value);
@@ -41,14 +44,16 @@ public final class KVUtils {
      * 设置系统参数
      */
     public static final void setKeyValues(Map<String, String> map) {
-        if (!CollectionUtils.isEmpty(map)) {
-            for (Map.Entry<String, String> entry : map.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
+        if (map == null || map.isEmpty()) {
+            return;
+        }
 
-                if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(value)) {
-                    setKeyValue(key, value);
-                }
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(value)) {
+                setKeyValue(key, value);
             }
         }
     }
@@ -89,7 +94,9 @@ public final class KVUtils {
      * 获取系统参数String
      */
     public static final String getString(String key) {
-        Assert.notNull(key, "[系统参数]-获取系统参数-系统参数Key为NULL.");
+        if (StringUtils.isBlank(key)) {
+            throw new IllegalArgumentException("[系统参数]-获取系统参数-系统参数Key为NULL.");
+        }
 
         String value = config.get(key);
         if (StringUtils.isBlank(value)) {
