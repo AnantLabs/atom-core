@@ -80,23 +80,52 @@ public class CfgUtils {
         if (StringUtils.isBlank(CONFIG_PATH)) {
             File root = new File(".");
 
-            // ./cfgs
-            File config = new File(root, CONFIG_PATH_NAME);
-            if (config.exists() && config.isDirectory()) {
-                CONFIG_PATH = FilenameUtils.normalizeNoEndSeparator(config.getAbsolutePath());
-                LogUtils.info("系统配置目录：" + CONFIG_PATH);
-            } else {
-                // ../cfgs
-                config = new File(root, "../" + CONFIG_PATH_NAME);
+            try {
+                // ./cfgs
+                File config = new File(root, CONFIG_PATH_NAME);
                 if (config.exists() && config.isDirectory()) {
                     CONFIG_PATH = FilenameUtils.normalizeNoEndSeparator(config.getAbsolutePath());
-                    LogUtils.info("系统配置目录：" + CONFIG_PATH);
-                } else {
-                    throw new RuntimeException("系统配置目录没有找到，请检查系统配置是否正确！");
+                    return CONFIG_PATH;
                 }
+
+                // ../cfgs
+                root = root.getParentFile();
+                if (root != null) {
+                    config = new File(root, CONFIG_PATH_NAME);
+                    if (config.exists() && config.isDirectory()) {
+                        CONFIG_PATH = FilenameUtils.normalizeNoEndSeparator(config.getAbsolutePath());
+                        return CONFIG_PATH;
+                    }
+                }
+
+                // ../../cfgs
+                root = root.getParentFile();
+                if (root != null) {
+                    config = new File(root, CONFIG_PATH_NAME);
+                    if (config.exists() && config.isDirectory()) {
+                        CONFIG_PATH = FilenameUtils.normalizeNoEndSeparator(config.getAbsolutePath());
+                        return CONFIG_PATH;
+                    }
+                }
+
+                // ../../../cfgs
+                root = root.getParentFile();
+                if (root != null) {
+                    config = new File(root, CONFIG_PATH_NAME);
+                    if (config.exists() && config.isDirectory()) {
+                        CONFIG_PATH = FilenameUtils.normalizeNoEndSeparator(config.getAbsolutePath());
+                        return CONFIG_PATH;
+                    }
+                }
+
+                // 没有找到
+                throw new RuntimeException("系统配置目录没有找到，请检查系统配置是否正确！");
+            } finally {
+                LogUtils.info("系统配置目录：" + CONFIG_PATH);
             }
         }
 
+        // 配置目录
         return CONFIG_PATH;
     }
 
