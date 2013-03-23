@@ -15,12 +15,13 @@ import java.util.logging.Logger;
  * @version $Id: LogUtils.java, 2012-8-18 下午8:25:49 Exp $
  */
 public class LogUtils {
-    private static boolean           debugEnable = true;
-    private static boolean           infoEnable  = true;
+    private static boolean           debugEnable  = true;
+    private static boolean           infoEnable   = true;
+    private static boolean           loggerEnable = false;
 
-    private static final PrintStream out         = System.out;
-    private static final PrintStream err         = System.err;
-    private static final Logger      logger      = Logger.getLogger("LOG");
+    private static final PrintStream out          = System.out;
+    private static final PrintStream err          = System.err;
+    private static final Logger      logger       = Logger.getLogger("LOG");
 
     /**
      * 设置是否打印Debug级别日志
@@ -36,10 +37,20 @@ public class LogUtils {
         infoEnable = info;
     }
 
+    /**
+     * 设置是否使用Logger打印日志
+     */
+    public static void setLoggerEnable(boolean enable) {
+        loggerEnable = enable;
+    }
+
     public static void debug(String msg) {
         if (debugEnable) {
             out.println(msg);
-            logger.log(Level.FINER, msg);
+
+            if (loggerEnable) {
+                logger.log(Level.FINER, msg);
+            }
         }
     }
 
@@ -48,49 +59,65 @@ public class LogUtils {
             out.println(msg);
             e.printStackTrace();
 
-            logger.log(Level.FINER, msg);
+            if (loggerEnable) {
+                logger.log(Level.FINER, msg);
+            }
         }
     }
 
     public static void info(String msg) {
         if (infoEnable) {
             out.println(msg);
-            logger.log(Level.INFO, msg);
+
+            if (loggerEnable) {
+                logger.log(Level.INFO, msg);
+            }
         }
     }
-    
+
     public static void info(String msg, Throwable e) {
         if (infoEnable) {
             out.println(msg);
             e.printStackTrace();
-            
-            logger.log(Level.INFO, msg);
+
+            if (loggerEnable) {
+                logger.log(Level.INFO, msg);
+            }
         }
     }
 
     public static void warn(String msg) {
         err.println(msg);
-        logger.log(Level.WARNING, msg);
+
+        if (loggerEnable) {
+            logger.log(Level.WARNING, msg);
+        }
     }
 
     public static void warn(String msg, Throwable e) {
         err.println(msg);
         e.printStackTrace();
 
-        logger.log(Level.WARNING, msg, e);
+        if (loggerEnable) {
+            logger.log(Level.WARNING, msg, e);
+        }
     }
 
     public static void error(String msg) {
         err.println(msg);
 
-        logger.log(Level.SEVERE, msg);
+        if (loggerEnable) {
+            logger.log(Level.SEVERE, msg);
+        }
     }
-    
+
     public static void error(String msg, Throwable e) {
         err.println(msg);
         e.printStackTrace();
 
-        logger.log(Level.SEVERE, msg, e);
+        if (loggerEnable) {
+            logger.log(Level.SEVERE, msg, e);
+        }
     }
-    
+
 }
