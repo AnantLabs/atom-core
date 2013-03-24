@@ -105,4 +105,8 @@ public final class ByteUtils {
         return StringUtils.trim(txt.toString());
     }
 
+    /**
+     * TOTO: startsWith, endsWith
+     */
+    
 }
