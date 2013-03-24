@@ -4,11 +4,16 @@
  */
 package com.atom.core.lang.utils;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -56,6 +61,13 @@ public final class KVUtils {
                 setKeyValue(key, value);
             }
         }
+    }
+    
+    /**
+     * 清空Key/Value配置
+     */
+    public static final void clearKeyValues() {
+        config.clear();
     }
 
     /**
@@ -150,5 +162,61 @@ public final class KVUtils {
     }
 
     // ~~~~~~~~~~~ 个性化方法 ~~~~~~~~~~~ //
+
+    /**
+     * 从Properties对象中解析Key/Value内容
+     */
+    public static final Map<String, String> fromProps(Properties props) {
+        try {
+
+            Map<String, String> map = new ConcurrentHashMap<String, String>();
+            for (Map.Entry<Object, Object> entry : props.entrySet()) {
+                String key = StringUtils.trimToEmpty(ObjectUtils.toString(entry.getKey()));
+                String value = StringUtils.trimToEmpty(ObjectUtils.toString(entry.getValue()));
+
+                map.put(key, value);
+            }
+
+            return map;
+        } catch (Exception e) {
+            throw new RuntimeException("从Properties对象中解析Map异常!");
+        }
+    }
+
+    /**
+     * 从XML文件中解析Key/Value内容
+     */
+    public static final Map<String, String> fromXML(String path) {
+        InputStream input = null;
+        try {
+            input = new FileInputStream(path);
+            Properties props = new Properties();
+            props.loadFromXML(input);
+
+            return fromProps(props);
+        } catch (Exception e) {
+            throw new RuntimeException("从XML文件[" + path + "]中解析Map异常!");
+        } finally {
+            IOUtils.closeQuietly(input);
+        }
+    }
+    
+    /**
+     * 从Property文件中解析Key/Value内容
+     */
+    public static final Map<String, String> fromProperty(String path) {
+        InputStream input = null;
+        try {
+            input = new FileInputStream(path);
+            Properties props = new Properties();
+            props.load(input);
+
+            return fromProps(props);
+        } catch (Exception e) {
+            throw new RuntimeException("从Property文件[" + path + "]中解析Map异常!");
+        } finally {
+            IOUtils.closeQuietly(input);
+        }
+    }
 
 }
