@@ -4,6 +4,7 @@
  */
 package com.atom.core.uijfx.utils;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Rectangle2D;
@@ -11,6 +12,8 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import org.apache.commons.lang.StringUtils;
+
+import com.atom.core.lang.utils.LogUtils;
 
 /**
  * Stage工具类
@@ -77,6 +80,23 @@ public class StageUtils {
 
         newStage.setX(x);
         newStage.setY(y);
+    }
+
+    /**
+     * 关闭Stage窗口
+     */
+    public static final void close(final Stage stage) {
+        if (stage != null) {
+            try {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        stage.close();
+                    }
+                });
+            } catch (Exception e) {
+                LogUtils.warn("关闭窗体异常!", e);
+            }
+        }
     }
 
 }

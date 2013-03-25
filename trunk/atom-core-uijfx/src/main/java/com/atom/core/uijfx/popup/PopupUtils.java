@@ -123,7 +123,7 @@ public final class PopupUtils {
      */
     public static void exitSystem(Stage stage, String title, String desp) {
         PopupEvent callback = new PopupEvent() {
-            public void callback(final Stage newStage, final int btnValue) {
+            public void callback(final Stage stage, final Stage newStage, final int btnValue) {
                 if (PopupConst.BTN_SURE_VALUE == btnValue) {
                     Platform.exit();
                 } else {

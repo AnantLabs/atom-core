@@ -17,6 +17,6 @@ public interface PopupEvent {
     /**
      * 回调函数
      */
-    public void callback(final Stage newStage, final int btnValue);
+    public void callback(final Stage stage, final Stage newStage, final int btnValue);
     
 }
