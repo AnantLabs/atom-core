@@ -7,12 +7,12 @@ package com.atom.core.lang.utils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 字节工具类
+ * 数字工具类
  * 
  * @author obullxl@gmail.com
- * @version $Id: ByteUtils.java, V1.0.1 2013-2-23 下午11:08:03 $
+ * @version $Id: DigitUtils.java, V1.0.1 2013-2-23 下午11:08:03 $
  */
-public final class ByteUtils {
+public final class DigitUtils {
     /** The high digits lookup table. */
     private static final byte[] highDigits;
 
@@ -47,7 +47,7 @@ public final class ByteUtils {
         }
 
         if (data.length == 0) {
-            return "empty";
+            return "";
         }
 
         StringBuilder out = new StringBuilder();
@@ -61,7 +61,7 @@ public final class ByteUtils {
 
         return StringUtils.trim(out.toString());
     }
-    
+
     /**
      * 整形转换为Hex字符
      */
@@ -106,7 +106,78 @@ public final class ByteUtils {
     }
 
     /**
-     * TOTO: startsWith, endsWith
+     * 数值类型转换
      */
-    
+    public static final int[] toInts(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+
+        int[] data = new int[bytes.length];
+        for (int i = 0; i < bytes.length; i++) {
+            data[i] = bytes[i];
+        }
+
+        return data;
+    }
+
+    /**
+     * 数值类型转换
+     */
+    public static final byte[] toBytes(int[] ints) {
+        if (ints == null) {
+            return null;
+        }
+
+        byte[] data = new byte[ints.length];
+        for (int i = 0; i < ints.length; i++) {
+            data[i] = (byte) ints[i];
+        }
+
+        return data;
+    }
+
+    /**
+     * 检测数组的开头
+     */
+    public static final boolean startsWith(int[] data, int[] starts) {
+        if (data == null || starts == null) {
+            return false;
+        }
+
+        if (data.length < starts.length) {
+            return false;
+        }
+
+        for (int i = 0; i < starts.length; i++) {
+            if (data[i] != starts[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * 检测数组的结尾
+     */
+    public static final boolean endsWith(int[] data, int[] ends) {
+        if (data == null || ends == null) {
+            return false;
+        }
+
+        if (data.length < ends.length) {
+            return false;
+        }
+
+        int start = data.length - ends.length;
+        for (int i = 0; i < ends.length; i++) {
+            if (data[start + i] != ends[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
