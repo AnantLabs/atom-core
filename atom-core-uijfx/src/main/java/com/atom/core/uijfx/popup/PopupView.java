@@ -332,7 +332,7 @@ public class PopupView implements PopupConst {
         button.addEventFilter(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (callback != null) {
-                    callback.callback(newStage, value);
+                    callback.callback(stage, newStage, value);
                 } else {
                     Platform.runLater(new Runnable() {
                         public void run() {
