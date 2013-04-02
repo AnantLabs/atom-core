@@ -38,6 +38,16 @@
 			<version>1.7</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- ======================================== -->
+		<!-- Logger相关依赖 -->
+		<!-- ======================================== -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.3</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<!-- ======================================== -->
 		<!-- FreeMarker依赖 -->

@@ -4,9 +4,8 @@
  */
 package com.atom.core.lang.utils;
 
-import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 默认日志工具类
@@ -15,109 +14,48 @@ import java.util.logging.Logger;
  * @version $Id: LogUtils.java, 2012-8-18 下午8:25:49 Exp $
  */
 public class LogUtils {
-    private static boolean           debugEnable  = true;
-    private static boolean           infoEnable   = true;
-    private static boolean           loggerEnable = false;
-
-    private static final PrintStream out          = System.out;
-    private static final PrintStream err          = System.err;
-    private static final Logger      logger       = Logger.getLogger("LOG");
+    /** Logger */
+    private static final Logger logger = LoggerFactory.getLogger("LOGGER");
 
     /**
-     * 设置是否打印Debug级别日志
+     * 获取Logger实例
      */
-    public static void setDebugEnable(boolean debug) {
-        debugEnable = debug;
+    public static final Logger get() {
+        return logger;
     }
 
-    /**
-     * 设置是否打印Info级别日志
-     */
-    public static void setInfoEnable(boolean info) {
-        infoEnable = info;
-    }
-
-    /**
-     * 设置是否使用Logger打印日志
-     */
-    public static void setLoggerEnable(boolean enable) {
-        loggerEnable = enable;
-    }
+    // ~~~~~~~~~~ 公用日志类 ~~~~~~~~~~~~ //
 
     public static void debug(String msg) {
-        if (debugEnable) {
-            out.println(msg);
-
-            if (loggerEnable) {
-                logger.log(Level.FINER, msg);
-            }
-        }
+        logger.debug(msg);
     }
 
     public static void debug(String msg, Throwable e) {
-        if (debugEnable) {
-            out.println(msg);
-            e.printStackTrace();
-
-            if (loggerEnable) {
-                logger.log(Level.FINER, msg);
-            }
-        }
+        logger.debug(msg, e);
     }
 
     public static void info(String msg) {
-        if (infoEnable) {
-            out.println(msg);
-
-            if (loggerEnable) {
-                logger.log(Level.INFO, msg);
-            }
-        }
+        logger.info(msg);
     }
 
     public static void info(String msg, Throwable e) {
-        if (infoEnable) {
-            out.println(msg);
-            e.printStackTrace();
-
-            if (loggerEnable) {
-                logger.log(Level.INFO, msg);
-            }
-        }
+        logger.info(msg, e);
     }
 
     public static void warn(String msg) {
-        err.println(msg);
-
-        if (loggerEnable) {
-            logger.log(Level.WARNING, msg);
-        }
+        logger.warn(msg);
     }
 
     public static void warn(String msg, Throwable e) {
-        err.println(msg);
-        e.printStackTrace();
-
-        if (loggerEnable) {
-            logger.log(Level.WARNING, msg, e);
-        }
+        logger.warn(msg, e);
     }
 
     public static void error(String msg) {
-        err.println(msg);
-
-        if (loggerEnable) {
-            logger.log(Level.SEVERE, msg);
-        }
+        logger.error(msg);
     }
 
     public static void error(String msg, Throwable e) {
-        err.println(msg);
-        e.printStackTrace();
-
-        if (loggerEnable) {
-            logger.log(Level.SEVERE, msg, e);
-        }
+        logger.error(msg, e);
     }
 
 }
