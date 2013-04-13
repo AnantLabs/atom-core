@@ -4,6 +4,7 @@
  */
 package com.atom.core.lang.ids;
 
+import com.atom.core.lang.MapExt;
 import com.atom.core.lang.ToString;
 
 /**
@@ -17,6 +18,9 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
 
     /** ID */
     private long              id;
+
+    /** 扩展参数 */
+    private final MapExt      extMap           = new MapExt();
 
     /**
      * CTOR
@@ -45,6 +49,13 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
 
     public final void setId(long id) {
         this.id = id;
+    }
+
+    /**
+     * 获取扩展参数
+     */
+    public final MapExt getExtMap() {
+        return extMap;
     }
 
     /** 
