@@ -20,7 +20,7 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
     private long              id;
 
     /** 扩展参数 */
-    private final MapExt      extMap           = new MapExt();
+    private MapExt            extMap           = new MapExt();
 
     /**
      * CTOR
@@ -51,11 +51,16 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
         this.id = id;
     }
 
-    /**
-     * 获取扩展参数
-     */
     public final MapExt getExtMap() {
-        return extMap;
+        if (this.extMap == null) {
+            this.extMap = new MapExt();
+        }
+
+        return this.extMap;
+    }
+
+    public final void setExtMap(MapExt extMap) {
+        this.extMap = extMap;
     }
 
     /** 
