@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.atom.core.lang.ids.ID;
+import com.atom.core.lang.ids.LongID;
 import com.atom.core.lang.utils.LogUtils;
 import com.atom.core.xstream.XStreamHolder;
 import com.thoughtworks.xstream.XStream;
@@ -29,7 +29,7 @@ import com.thoughtworks.xstream.XStream;
  * @author obullxl@gmail.com
  * @version $Id: BaseStore.java, 2012-8-18 下午8:25:49 Exp $
  */
-public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
+public abstract class BaseStore<T extends LongID> implements Store<T> {
     /** 可重入读写锁 */
     private static final ReadWriteLock lock  = new ReentrantReadWriteLock();
     /** 数据内容 */
@@ -81,7 +81,7 @@ public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
                 throw new RuntimeException("Store初始化存储器失败，文件路径为空！");
             }
 
-            findXStream().alias("ID", ID.class);
+            findXStream().alias("LongID", LongID.class);
 
             File file = new File(this.getFilePath());
             if (file.exists()) {
@@ -136,6 +136,8 @@ public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
 
         lock.writeLock().lock();
         try {
+            value.removeSaveFlag();
+            
             value.setId(this.aid.incrementAndGet());
             this.update(value);
         } catch (Exception e) {
@@ -220,6 +222,8 @@ public abstract class BaseStore<T extends ID<Long>> implements Store<T> {
 
         lock.writeLock().lock();
         try {
+            value.removeSaveFlag();
+            
             this.store.put(value.getId(), value);
             rtn = this.save();
         } catch (Exception e) {
