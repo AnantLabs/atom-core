@@ -14,13 +14,16 @@ import com.atom.core.lang.ToString;
  * @version $Id: LongID.java, 2012-8-18 下午8:25:49 Exp $
  */
 public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
-    private static final long serialVersionUID = 6563737303459840471L;
+    private static final long  serialVersionUID = 6563737303459840471L;
+
+    /** 是否更新KEY */
+    public static final String SAVE_KEY         = "_save_data_key";
 
     /** ID */
-    private long              id;
+    private long               id;
 
     /** 扩展参数 */
-    private MapExt            extMap           = new MapExt();
+    private MapExt             extMap           = new MapExt();
 
     /**
      * CTOR
@@ -94,6 +97,27 @@ public class LongID extends ToString implements ID<Long>, Comparable<LongID> {
         }
 
         return (int) (this.getId() - other.getId());
+    }
+
+    /**
+     * 是否需要保存
+     */
+    public final boolean hasSaveFlag() {
+        return this.getExtMap().getBoolean(SAVE_KEY);
+    }
+
+    /**
+     * 设置保存标记
+     */
+    public void setSaveFlag() {
+        this.getExtMap().put(SAVE_KEY, Boolean.toString(true));
+    }
+
+    /**
+     * 去除保存标记
+     */
+    public void removeSaveFlag() {
+        this.getExtMap().remove(SAVE_KEY);
     }
 
 }
