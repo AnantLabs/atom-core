@@ -5,8 +5,10 @@
 package com.atom.core.xstream.store;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +32,15 @@ import com.thoughtworks.xstream.XStream;
  * @version $Id: BaseStore.java, 2012-8-18 下午8:25:49 Exp $
  */
 public abstract class BaseStore<T extends LongID> implements Store<T> {
+    /** 文件编码 */
+    public static final String         CHARSET = "UTF-8";
+
     /** 可重入读写锁 */
-    private static final ReadWriteLock lock  = new ReentrantReadWriteLock();
+    private static final ReadWriteLock lock    = new ReentrantReadWriteLock();
     /** 数据内容 */
-    private final Map<Long, T>         store = new ConcurrentHashMap<Long, T>();
+    private final Map<Long, T>         store   = new ConcurrentHashMap<Long, T>();
     /** ID */
-    private final AtomicLong           aid   = new AtomicLong();
+    private final AtomicLong           aid     = new AtomicLong();
 
     /** 文件路径 */
     private String                     filePath;
@@ -53,7 +58,7 @@ public abstract class BaseStore<T extends LongID> implements Store<T> {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-    
+
     /**
      * 获取XStream对象
      */
@@ -84,9 +89,15 @@ public abstract class BaseStore<T extends LongID> implements Store<T> {
             findXStream().alias("LongID", LongID.class);
 
             File file = new File(this.getFilePath());
+            InputStreamReader reader = null;
             if (file.exists()) {
-                this.store.putAll((Map<Long, T>) findXStream().fromXML(file));
-                this.aid.set(this.findMaxID());
+                try {
+                    reader = new InputStreamReader(new FileInputStream(file), CHARSET);
+                    this.store.putAll((Map<Long, T>) findXStream().fromXML(reader));
+                    this.aid.set(this.findMaxID());
+                } finally {
+                    IOUtils.closeQuietly(reader);
+                }
             }
         } catch (Exception e) {
             rtn = false;
@@ -112,11 +123,12 @@ public abstract class BaseStore<T extends LongID> implements Store<T> {
                 root.mkdirs();
             }
 
-            OutputStream out = new FileOutputStream(file);
+            OutputStreamWriter writer = null;
             try {
-                findXStream().toXML(this.store, out);
+                writer = new OutputStreamWriter(new FileOutputStream(file), CHARSET);
+                findXStream().toXML(this.store, writer);
             } finally {
-                IOUtils.closeQuietly(out);
+                IOUtils.closeQuietly(writer);
             }
         } catch (Exception e) {
             rtn = false;
@@ -137,7 +149,7 @@ public abstract class BaseStore<T extends LongID> implements Store<T> {
         lock.writeLock().lock();
         try {
             value.removeSaveFlag();
-            
+
             value.setId(this.aid.incrementAndGet());
             this.update(value);
         } catch (Exception e) {
@@ -223,7 +235,7 @@ public abstract class BaseStore<T extends LongID> implements Store<T> {
         lock.writeLock().lock();
         try {
             value.removeSaveFlag();
-            
+
             this.store.put(value.getId(), value);
             rtn = this.save();
         } catch (Exception e) {
