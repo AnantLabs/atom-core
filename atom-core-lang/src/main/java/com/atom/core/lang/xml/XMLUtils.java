@@ -61,6 +61,25 @@ public final class XMLUtils {
     }
 
     /**
+     * Search the first XMLNode that equal to the xname
+     */
+    public static final XMLNode findByName(XMLNode xroot, String xname) {
+        if (xroot == null || StringUtils.isBlank(xname)) {
+            return null;
+        }
+
+        if (StringUtils.equalsIgnoreCase(xroot.getName(), xname)) {
+            return xroot;
+        }
+
+        for (XMLNode xnode : xroot.getChildren()) {
+            return findByName(xnode, xname);
+        }
+
+        return null;
+    }
+
+    /**
      * 解析XML节点及其儿子节点
      */
     private final static XMLNode parse(Node element) {
