@@ -17,7 +17,18 @@ public class Tuple<V1, V2> extends ToString {
     private V1                one;
 
     /** 第二数 */
-    private V1                two;
+    private V2                two;
+
+    /**
+     * CTOR
+     */
+    public Tuple() {
+    }
+
+    public Tuple(V1 one, V2 two) {
+        this.one = one;
+        this.two = two;
+    }
 
     // ~~~~~~~~~ getters and setters ~~~~~~~~~ //
 
@@ -29,11 +40,11 @@ public class Tuple<V1, V2> extends ToString {
         this.one = one;
     }
 
-    public V1 getTwo() {
+    public V2 getTwo() {
         return two;
     }
 
-    public void setTwo(V1 two) {
+    public void setTwo(V2 two) {
         this.two = two;
     }
 
